@@ -3,73 +3,114 @@
 __copyright__ = "Copyright (C) 2021 Shangyan Zhou"
 __license__ = "MIT"
 
-import sys
 import csv
 import datetime
 import enum
 import io
-import re
-import os
 import logging
-import collections
-from typing import Union, Dict, Callable, Optional
+import os
+import re
+import sys
+from typing import Dict, Optional
 
 import dateutil.parser
-
 from beancount.core import data
 from beancount.core.amount import Amount
 from beancount.core.number import D
 from beancount.core.number import ZERO
-from beancount.ingest import importer
 from beancount.ingest import cache
+from beancount.ingest import importer
+import sqlite3
+
 from beancount.utils.date_utils import parse_date_liberally
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
+class Status(enum.Enum):
+    """Txn status."""
+
+    # Txn success.
+    TXN_SUCCESS = "[TXN_SUCCESS]"
+    # Txn closed. Your money is still in your pocket.
+    TXN_CLOSED = "[TXN_CLOSED]"
+    # A transaction success earlier, then refunded due to some reason.
+    REFUND_SUCCESS = "[REFUND_SUCCESS]"
+    # Transfer from your account to others.
+    REPAYMENT_SUCCESS = "[REPAYMENT_SUCCESS]"
+    # Unknown, default value
+    UNKNOWN = "[UNKNOWN]"
+
+
 class Col(enum.Enum):
     """The set of interpretable columns."""
 
+    # Transaction's unique No.
+    TXN_NO = "TXN_NO"
+
     # The settlement date, the date we should create the posting at.
-    DATE = "[DATE]"
+    DATE = "DATE"
 
     # The date at which the transaction took place.
-    TXN_DATE = "[TXN_DATE]"
+    TXN_DATE = "TXN_DATE"
 
     # The time at which the transaction took place.
     # Beancount does not support time field -- just add it to metadata.
-    TXN_TIME = "[TXN_TIME]"
+    TXN_TIME = "TXN_TIME"
 
     # The payee field.
-    PAYEE = "[PAYEE]"
+    PAYEE = "PAYEE"
 
     # The narration fields. Use multiple fields to combine them together.
-    NARRATION = "[NARRATION]"
+    NARRATION = "NARRATION"
 
     # The amount being posted.
-    AMOUNT = "[AMOUNT]"
+    AMOUNT = "AMOUNT"
 
     # Debits and credits being posted in separate, dedicated columns.
-    AMOUNT_DEBIT = "[DEBIT]"
-    AMOUNT_CREDIT = "[CREDIT]"
+    AMOUNT_DEBIT = "DEBIT"
+    AMOUNT_CREDIT = "CREDIT"
 
-    # Transcation status.
-    STATUS = "[STATUS]"
+    # Transaction status.
+    STATUS = "STATUS"
 
-    # Transcatin type.
-    TYPE = "[TYPE]"
+    # Transaction type.
+    TYPE = "TYPE"
 
     # The balance amount, after the row has posted.
-    BALANCE = "[BALANCE]"
+    BALANCE = "BALANCE"
 
     # A column which says DEBIT or CREDIT (generally ignored).
-    DRCR = "[DRCR]"
+    DECR = "DECR"
 
-    # An account name.
-    ACCOUNT = "[ACCOUNT]"
+    # Account name.
+    ACCOUNT = "ACCOUNT"
+
+    # Line Number.
+    LINE_NO = "LINE_NO"
 
 
-class Drcr(enum.Enum):
+class AccountType(enum.Enum):
+    # Assets
+    ASSETS = "[ASSETS]"
+
+    # Liabilities
+    LIABILITIES = "[LIABILITIES]"
+
+    # Equity
+    EQUITY = "[EQUITY]"
+
+    # Income
+    INCOME = "[INCOME]"
+
+    # Expenses
+    EXPENSES = "[EXPENSES]"
+
+    # Default account type.
+    UNKNOWN = "[UNKNOWN]"
+
+
+class DeCr(enum.Enum):
     DEBIT = "[DEBIT]"
 
     CREDIT = "[CREDIT]"
@@ -106,13 +147,11 @@ def strip_blank(contents):
         return "\n".join(rows)
 
 
-def get_amounts(
-    iconfig: Dict[Col, str], row, drcr: Drcr, allow_zero_amounts: bool = False
-):
+def get_amount(config: Dict[Col, str], row, allow_zero_amounts: bool = False):
     """Get the amount columns of a row.
 
     Args:
-        iconfig: A dict of Col to row index.
+        config: A dict of Col to row index.
         row: A row array containing the values of the given row.
         allow_zero_amounts: Is a transaction with amount D('0.00') okay? If not,
             return (None, None).
@@ -120,26 +159,56 @@ def get_amounts(
         A pair of (debit-amount, credit-amount), both of which are either an
         instance of Decimal or None, or not available.
     """
+    amount, decimal = None, None
+    if Col.AMOUNT in config:
+        amount = row[config[Col.AMOUNT]]
+        decimal = cast_to_decimal(amount) if amount else None
+    else:
+        debit, credit = [
+            row[config[col]] if col in config else None
+            for col in [Col.AMOUNT_DEBIT, Col.AMOUNT_CREDIT]
+        ]
+
+    # If zero amounts aren't allowed, return null value.
+    is_zero_amount = decimal is not None and decimal == ZERO
+    if not allow_zero_amounts and is_zero_amount:
+        return None
+    return decimal
+
+
+def get_amounts(config: Dict[Col, str], row, decr: DeCr, allow_zero_amounts: bool = False):
+    """Get the amount columns of a row.
+
+    Args:
+        config: A dict of Col to row index.
+        row: A row array containing the values of the given row.
+        decr: debit or credit type.
+        allow_zero_amounts: Is a transaction with amount D('0.00') okay? If not,
+            return (None, None).
+    Returns:
+        A pair of (debit-amount, credit-amount), both of which are either an
+        instance of Decimal or None, or not available.
+    """
     debit, credit = None, None
-    if Col.AMOUNT in iconfig:
-        amount = row[iconfig[Col.AMOUNT]]
+    if Col.AMOUNT in config:
+        amount = row[config[Col.AMOUNT]]
         # Distinguish debit or credit
-        if drcr == Drcr.CREDIT:
+        if decr == DeCr.CREDIT:
             credit = amount
         else:
             debit = amount
     else:
         debit, credit = [
-            row[iconfig[col]] if col in iconfig else None
+            row[config[col]] if col in config else None
             for col in [Col.AMOUNT_DEBIT, Col.AMOUNT_CREDIT]
         ]
 
     # If zero amounts aren't allowed, return null value.
     is_zero_amount = (credit is not None and cast_to_decimal(credit) == ZERO) and (
-        debit is not None and cast_to_decimal(debit) == ZERO
+            debit is not None and cast_to_decimal(debit) == ZERO
     )
     if not allow_zero_amounts and is_zero_amount:
-        return (None, None)
+        return None, None
 
     return (
         -cast_to_decimal(debit) if debit else None,
@@ -147,49 +216,49 @@ def get_amounts(
     )
 
 
-def get_DRCR_status(iconfig: [Col, str], row, drcr_dict):
+def get_debit_credit_status(config: [Col, str], row, decr_dict):
     """Get the status which says DEBIT or CREDIT of a row.
     """
 
     try:
-        if Col.DRCR in iconfig and len(row[iconfig[Col.DRCR]]):
-            return drcr_dict[row[iconfig[Col.DRCR]]]
-        elif Col.STATUS in iconfig:
-            return drcr_dict[row[iconfig[Col.STATUS]]]
+        if Col.DECR in config and len(row[config[Col.DECR]]):
+            return decr_dict[row[config[Col.DECR]]]
+        elif Col.STATUS in config:
+            return decr_dict[row[config[Col.STATUS]]]
         else:
-            if Col.AMOUNT_CREDIT in iconfig and row[iconfig[Col.AMOUNT_CREDIT]]:
-                return Drcr.CREDIT
-            elif Col.AMOUNT_DEBIT in iconfig and row[iconfig[Col.AMOUNT_DEBIT]]:
-                return Drcr.DEBIT
+            if Col.AMOUNT_CREDIT in config and row[config[Col.AMOUNT_CREDIT]]:
+                return DeCr.CREDIT
+            elif Col.AMOUNT_DEBIT in config and row[config[Col.AMOUNT_DEBIT]]:
+                return DeCr.DEBIT
             else:
-                return Drcr.UNCERTAINTY
+                return DeCr.UNCERTAINTY
     except KeyError:
-        return Drcr.UNCERTAINTY
+        return DeCr.UNCERTAINTY
 
 
 class Importer(importer.ImporterProtocol):
     """Importer for csv files."""
 
     def __init__(
-        self,
-        config: Dict[Col, str],
-        default_account: str,
-        currency: str,
-        file_name_prefix: str,
-        skip_lines: int = 0,
-        drcr_dict: Optional[Dict] = None,
-        refund_keyword=None,
-        account_map: Dict = {},
+            self,
+            config: Dict[Col, str],
+            default_account: str,
+            currency: str,
+            file_name_prefix: str,
+            skip_lines: int = 0,
+            decr_dict: Optional[Dict] = None,
+            refund_keyword: str = None,
+            account_map: Dict = {},
     ):
         """Constructor.
 
         Args:
           config: A dict of Col enum types to the names or indexes of the columns.
           default_account: An account string, the default account to post this to.
-          currency: A currency string, the currenty of this account.
+          currency: A currency string, the currency of this account.
           file_name_prefix: Used for identification.
           skip_lines: Skip first x (garbage) lines of file.
-          drcr_dict: A dict to determine whether a transcation is credit or debit.
+          decr_dict: A dict to determine whether a transaction is credit or debit.
           refund_keyword: The keyword to determine whether a transaction is a refund.
           account_map: A dict to find the account corresponding to the transactions.
         """
@@ -200,18 +269,19 @@ class Importer(importer.ImporterProtocol):
         self.currency = currency
         assert isinstance(skip_lines, int)
         self.skip_lines = skip_lines
-        self.drcr_dict = drcr_dict
+        self.decr_dict = decr_dict
         self.refund_keyword = refund_keyword
         self.account_map = account_map
         self.file_name_prefix = file_name_prefix
+        self.dateutil_kwds = None
 
     def file_date(self, file):
-        "Get the maximum date from the file."
-        iconfig, has_header = normalize_config(
+        """Get the maximum date from the file."""
+        config, has_header = normalize_config(
             self.config, file.contents(), self.skip_lines
         )
-        if Col.DATE in iconfig:
-            reader = csv.reader(open(io.StringIO(strip_blank(file.contents()))))
+        if Col.DATE in config:
+            reader = csv.reader(io.StringIO(strip_blank(file.contents())))
             for _ in range(self.skip_lines):
                 next(reader)
             if has_header:
@@ -222,7 +292,7 @@ class Importer(importer.ImporterProtocol):
                     continue
                 if row[0].startswith("#"):
                     continue
-                date_str = row[iconfig[Col.DATE]]
+                date_str = row[config[Col.DATE]]
                 date = parse_date_liberally(date_str, self.dateutil_kwds)
                 if max_date is None or date > max_date:
                     max_date = date
@@ -234,16 +304,34 @@ class Importer(importer.ImporterProtocol):
         if not os.path.basename(file.name).startswith(self.file_name_prefix):
             return False
 
-        iconfig, _ = normalize_config(self.config, file.contents(), self.skip_lines)
-        return len(iconfig) == len(self.config)
+        config, _ = normalize_config(self.config, file.contents(), self.skip_lines)
+        return len(config) == len(self.config)
 
     def extract(self, file, existing_entries=None):
         entries = []
+        con = sqlite3.connect(":memory:")
+        con.row_factory = sqlite3.Row
+        column_name, data_type = None, None
+        sql = "CREATE TABLE txn ({})"
+        ddl = []
+        for col in list(Col):
+            if len(ddl) > 0:
+                ddl.append(',')
+            ddl.append(col.value)
+            if col is Col.DATE:
+                data_type = 'text'
+            elif col is Col.LINE_NO:
+                data_type = 'integer'
+            else:
+                data_type = 'text'
 
+            ddl.append(data_type)
+            if col is Col.TXN_NO:
+                ddl.append('primary key')
+
+        con.execute(sql.format(" ".join(ddl)))
         # Normalize the configuration to fetch by index.
-        iconfig, has_header = normalize_config(
-            self.config, file.contents(), self.skip_lines
-        )
+        config, has_header = normalize_config(self.config, file.contents(), self.skip_lines)
 
         reader = csv.reader(io.StringIO(strip_blank(file.contents())))
 
@@ -255,40 +343,86 @@ class Importer(importer.ImporterProtocol):
         if has_header:
             next(reader)
 
-        def get(row, ftype):
-            return row[iconfig[ftype]] if ftype in iconfig else None
+        def get(row, col_type):
+            return row[config[col_type]].strip() if col_type in config else None
 
         # Parse all the transactions.
-        first_row = last_row = None
-        for index, row in enumerate(reader, 1):
-            if not row:
-                continue
-            if row[0].startswith("#"):
-                continue
-            if row[0].startswith("-----------"):
-                break
+        def prepare():
+            for idx, r in enumerate(reader, 1):
+                if not r:
+                    continue
+                if r[0].startswith("#"):
+                    continue
+                if r[0].startswith("-----------"):
+                    break
 
-            if first_row is None:
-                first_row = row
-            last_row = row
+                # Extract the data we need from the row, based on the configuration.
+                pairs = {Col.STATUS: get(r, Col.STATUS),
+                         Col.TXN_DATE: get(r, Col.TXN_DATE),
+                         Col.TXN_TIME: get(r, Col.TXN_TIME),
+                         Col.DATE: get(r, Col.DATE),
+                         Col.TXN_NO: get(r, Col.TXN_NO),
+                         # The account that receives from or transfer to other accounts.
+                         Col.ACCOUNT: get(r, Col.ACCOUNT),
+                         # Category
+                         Col.TYPE: get(r, Col.TYPE) or "",
+                         # The peer account
+                         Col.PAYEE: get(r, Col.PAYEE),
+                         # The goods
+                         Col.NARRATION: get(r, Col.NARRATION),
+                         Col.DECR: get_debit_credit_status(config, r, self.decr_dict),
+                         Col.AMOUNT: get(r, Col.AMOUNT),
+                         Col.LINE_NO: idx}
 
-            # Extract the data we need from the row, based on the configuration.
-            status = get(row, Col.STATUS)
-            date = get(row, Col.DATE)
-            txn_date = get(row, Col.TXN_DATE)
-            txn_time = get(row, Col.TXN_TIME)
-            account = get(row, Col.ACCOUNT)
-            tx_type = get(row, Col.TYPE)
-            tx_type = tx_type or ""
+                names = []
+                dat = []
+                marks = []
+                for k, v in pairs.items():
+                    if v is None:
+                        continue
+                    names.append(k.value)
+                    if isinstance(v, DeCr):
+                        dat.append(v.value)
+                    else:
+                        dat.append(v)
+                    marks.append('?')
 
-            payee = get(row, Col.PAYEE)
-            if payee:
-                payee = payee.strip()
+                if len(names) > 0:
+                    sql_insert = "insert into txn ({}) values ({})".format(",".join(names), ",".join(marks))
+                    con.execute(sql_insert, tuple(dat))
 
-            narration = get(row, Col.NARRATION)
-            if narration:
-                narration = narration.strip()
+        prepare()
 
+        def process(record, ignore_closed_txn: bool = True):
+            status = record[Col.STATUS.value]
+            payee = record[Col.PAYEE.value]
+            narration = record[Col.NARRATION.value]
+            txn_type = record[Col.TYPE.value]
+            account = record[Col.ACCOUNT.value]
+            index = record[Col.LINE_NO.value]
+            txn_date = record[Col.TXN_DATE.value]
+            txn_time = record[Col.TXN_TIME.value]
+            date = record[Col.DATE.value]
+            amount_val = record[Col.AMOUNT.value]
+            amount = cast_to_decimal(amount_val) if amount_val else None
+            decr = DeCr(record[Col.DECR.value])
+            txn_no = record[Col.TXN_NO.value]
+
+            # Maybe you close the txn without paying, or you requested a refund after your purchase.
+            if status == '交易关闭' and ignore_closed_txn:
+                return None
+
+            prev_txn = None
+            if txn_type == self.refund_keyword and status == '退款成功':
+                for prev_row in con.execute(
+                        "select * from txn where ACCOUNT = ? and PAYEE = ? and AMOUNT = ? and TXN_NO != ? and TXN_DATE < ?",
+                        (account, payee, amount_val, txn_no, txn_date)):
+                    if prev_txn is None:
+                        prev_txn = process(prev_row, False)
+                    else:
+                        raise ValueError("Should be exactly one transaction.")
+
+            # print(alt, another_account, sep="%%")
             # Create a transaction
             meta = data.new_metadata(file.name, index)
             if txn_date is not None:
@@ -307,104 +441,46 @@ class Importer(importer.ImporterProtocol):
                 [],
             )
 
-            # Attach one posting to the transaction
-            drcr = get_DRCR_status(iconfig, row, self.drcr_dict)
-            amount_debit, amount_credit = get_amounts(iconfig, row, drcr)
-
             # Skip empty transactions
-            if amount_debit is None and amount_credit is None:
-                continue
+            if amount is None:
+                return None
 
-            for amount in [amount_debit, amount_credit]:
-                if amount is None:
-                    continue
-                units = Amount(amount, self.currency)
+            units = Amount(amount, self.currency)
 
-                if drcr == Drcr.UNCERTAINTY:
-                    if account and len(account.split("-")) == 2:
-                        accounts = account.split("-")
-                        primary_account = mapping_account(
-                            self.account_map["assets"], accounts[1]
-                        )
-                        secondary_account = mapping_account(
-                            self.account_map["assets"], accounts[0]
-                        )
-                        txn.postings.append(
-                            data.Posting(
-                                primary_account, -units, None, None, None, None
-                            )
-                        )
-                        txn.postings.append(
-                            data.Posting(
-                                secondary_account, None, None, None, None, None
-                            )
-                        )
-                    else:
-                        txn.postings.append(
-                            data.Posting(
-                                self.account_map["assets"]["DEFAULT"],
-                                units,
-                                None,
-                                None,
-                                None,
-                                None,
-                            )
-                        )
-                else:
-                    primary_account = mapping_account(
-                        self.account_map["assets"], account
-                    )
-                    txn.postings.append(
-                        data.Posting(primary_account, units, None, None, None, None)
-                    )
+            primary_account, secondary_account = None, None
+            if decr == DeCr.UNCERTAINTY:
+                decr = self.decr_dict[status] if status in self.decr_dict else DeCr.CREDIT
+            if prev_txn is None:
+                # We will define an account based on payee, narration and type.
+                alt = [payee, narration, txn_type]
+                one_account = search_account(self.account_map, [account])
+                another_account = search_account(self.account_map, alt)
+                if decr == DeCr.DEBIT:  # one_account -> another account
+                    primary_account = one_account
+                    secondary_account = another_account
+                elif decr == DeCr.CREDIT:  # one_account <- another account
+                    primary_account = another_account
+                    secondary_account = one_account
+            else:
+                secondary_account = prev_txn.postings[0].account
+                primary_account = prev_txn.postings[1].account
+            # print(account, primary_account, secondary_account, units, -units, sep="--")
+            if primary_account is None or secondary_account is None:
+                print(account, payee, narration, txn_type, primary_account, secondary_account, sep="##")
 
-                    payee_narration = payee + narration
-                    account_map = self.account_map[
-                        "credit"
-                        if drcr == Drcr.CREDIT
-                        and not (
-                            self.refund_keyword
-                            and payee_narration.find(self.refund_keyword) != -1
-                        )
-                        else "debit"
-                    ]
-
-                    secondary_account = mapping_account(
-                        account_map, payee_narration + tx_type
-                    )
-                    txn.postings.append(
-                        data.Posting(secondary_account, None, None, None, None, None)
-                    )
-
+            txn.postings.append(
+                data.Posting(primary_account, -units, None, None, None, None)
+            )
+            txn.postings.append(
+                data.Posting(secondary_account, units, None, None, None, None)
+            )
             # Add the transaction to the output list
             logging.debug(txn)
             entries.append(txn)
+            return txn
 
-        # Figure out if the file is in ascending or descending order.
-        first_date = parse_date_liberally(get(first_row, Col.DATE))
-        last_date = parse_date_liberally(get(last_row, Col.DATE))
-        is_ascending = first_date < last_date
-
-        # Reverse the list if the file is in descending order
-        if not is_ascending:
-            entries = list(reversed(entries))
-
-        # Add a balance entry if possible
-        if Col.BALANCE in iconfig and entries:
-            entry = entries[-1]
-            date = entry.date + datetime.timedelta(days=1)
-            balance = entry.meta.get("balance", None)
-            if balance is not None:
-                meta = data.new_metadata(file.name, index)
-                entries.append(
-                    data.Balance(
-                        meta, date, account, Amount(balance, self.currency), None, None,
-                    )
-                )
-
-        # Remove the 'balance' metadata.
-        for entry in entries:
-            entry.meta.pop("balance", None)
+        for row in con.execute("SELECT * FROM txn ORDER BY TXN_DATE ASC ;"):
+            process(row)
 
         return entries
 
@@ -415,7 +491,6 @@ def normalize_config(config, head, skip_lines: int = 0):
     Args:
       config: A dict of Col types to string or indexes.
       head: A string, some decent number of bytes of the head of the file.
-      dialect: A dialect definition to parse the header
       skip_lines: Skip first x (garbage) lines of file.
     Returns:
       A pair of
@@ -429,7 +504,7 @@ def normalize_config(config, head, skip_lines: int = 0):
     assert isinstance(skip_lines, int)
     assert skip_lines >= 0
     for _ in range(skip_lines):
-        head = head[head.find("\n") + 1 :]
+        head = head[head.find("\n") + 1:]
     head = head[: head.find("\n") + 1]
 
     head = strip_blank(head)
@@ -453,6 +528,14 @@ def normalize_config(config, head, skip_lines: int = 0):
     return index_config, has_header
 
 
+def search_account(account_map, keywords):
+    for _, mapping in account_map.items():
+        for keyword in keywords:
+            account_name, default_name = mapping_account(mapping, keyword)
+            if account_name:
+                return account_name
+
+
 def mapping_account(account_map, keyword):
     """Finding which key of account_map contains the keyword, return the corresponding value.
 
@@ -464,13 +547,20 @@ def mapping_account(account_map, keyword):
     Raises:
       KeyError: If "DEFAULT" keyword is not in account_map.
     """
+
+    if not keyword:
+        return None, None
+
     if "DEFAULT" not in account_map:
         raise KeyError("DEFAULT is not in " + account_map.__str__)
-    account_name = account_map["DEFAULT"]
-    for account_keywords in account_map.keys():
+    default_name = account_map["DEFAULT"]
+    account_name = account_map[keyword] if keyword in account_map else None
+    if account_name:
+        return account_name, default_name
+    for account_keywords in sorted(account_map.keys()):
         if account_keywords == "DEFAULT":
             continue
-        if re.search(account_keywords, keyword) or account_keywords == keyword:
+        if re.search(account_keywords, keyword):
             account_name = account_map[account_keywords]
             break
-    return account_name
+    return account_name, default_name

@@ -1,0 +1,104 @@
+= Usage
+:stem: latexmath
+
+[source,bash]
+----
+bean-extract config.py 微信支付账单_xxx.csv/alipay_record_xxx.csv > xxxxxxx.bean
+----
+
+*Notice:The raw data filename can only start with "微信支付账单" or "alipay_record."*
+
+可以阅读[用于支付宝和微信账单的Beancount Importer](https://blog.sy-zhou.com/%E7%94%A8%E4%BA%8E%E6%94%AF%E4%BB%98%E5%AE%9D%E5%92%8C%E5%BE%AE%E4%BF%A1%E8%B4%A6%E5%8D%95%E7%9A%84beancount-import/)，了解更多细节。
+
+* 账单： 记录资金从一个账户转移到另一个账户。每一个**交易**记录中，必然有一个账户是属于你的。
+* 退款：支出流程的逆向流程。一般是原路返回，微信支持退回零钱。
+* 部分退款如何记账？
+* 收入：资金从别人的账户转入到你自己的账户。只关乎资金的流行
+* 支出：资金从你自己的账户转出到别人的账户。只关乎资金的流行
+
+
+== 特殊场景
+
+- 借钱
+- 垫付
+- 报销
+- 折旧
+- 红包
+
+复试记账每一笔都和自己有关。所以能区分出具体的用途。
+
+收入在复试记账里面怎么理解？
+
+== 复式记账
+
+- 单式记账
+- 复式记账
+
+== 理解会计恒等式
+
+资产(Assets) - 负债(Liabilities) = 权益(Equity)
+
+[stem]
+++++
+Assets - Liabilities = Equity
+++++
+
+权益可以经一步细分为：初始资本(Capital)、收入(Income)和支出(Expenses)三部分。关系如下：
+
+[stem]
+++++
+Equity = Capital + Income − Expenses
+++++
+
+整合一下上面两个公式，我们得到了：
+
+[stem]
+++++
+Assets - Liabilities = Capital + Income - Expenses
+++++
+
+在Beancount中
+[stem]
+++++
+(Income + Liabilities) + (Assets + Expenses) + Equity = 0。
+++++
+
+为什么全是加法，因为数值本身是有符号的。对于一个交易，其实负数的账目就相当于 “贷”，正数的账目就相当于 “借”。
+
+如果把交易中的负数账目归为一类，正数账目归为一类，不难看出：负数账目意味着这笔交易的金额 “从哪儿来”，而正数账目意味着金额要 “到哪儿去”。
+
+- 资产(Assets): 资产记录你当前所持有的钱，或者通过交易可以变为钱东西。常见的比如各种银行的存款账户、兜里的现金、车子、房产等等。别人欠你的钱（应收账款）和你欠别人的钱（负债）都是你的资产。
+- 负债(Liabilities): 你欠了别人的钱。所以别人的钱现在是在你的兜里，在没有还回去之前，你可以自己决定怎么花，所以也是你的资产。
+- 支出(Expenses): 你花出去的钱，不会在回来的那种。你花钱买商品，买服务等撑场情况下
+- 收入(Income): 你得到的钱，得到之后还不用还回去的。比如常见的你劳动所得的工资，你投资的收益，股票的粉分红等。
+- 权益(Equity): 你的资产初始值。
+
+== 账户主体
+
+每个账户的所有者是谁？重要不，不重要，因为最终看的是
+
+账户之间最明显的一个区别是：我们到底想知道一个账户的余额，还是它的差额。比方说对于支付宝余额、信用卡欠款，我们更在意现在钱包还有多少钱，因此余额比起差额来说应该更加重要。而对于餐厅账户来说，比起了解这辈子到底花了多少钱吃饭，这个月到底花了多少才更具指导意义，因此对它来说差额又更加重要。
+
+另一个分类的尺度就是账户余额的符号。一般而言，复式记账中账户的符号总是不变的。比如支付宝余额总是正的 也有可能是 0，而信用卡账户、收入账户（比如薪水，原因在上一节提过）总是负的。
+
+余额通常是正的 余额通常是负的
+
+|===
+||正数|负数
+|更关注 *余额*（资产表）|资产(Assets)|负债(Liabilities)
+|更关注 *差额*（损益表）|支出(Expenses)|收入(Income)
+|===
+
+钱在哪(Location)，钱干什么了(Purpose)
+
+|===
+|||
+|位置(Location)|资产|负债
+|目的(Purpose)|收入|支出
+|===
+
+== 参考
+
+* Peter Selinger, Tutorial on multiple currency accounting, https://www.mathstat.dal.ca/~selinger/accounting/tutorial.html
+* Martin Blais, The Double-Entry Counting Method, https://beancount.github.io/docs/the_double_entry_counting_method.html
+* 复式记账指北（一）：What and Why？ , https://blog.kaaass.net/archives/1659
