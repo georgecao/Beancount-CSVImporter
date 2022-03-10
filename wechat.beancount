@@ -1,875 +1,11 @@
 ;; -*- mode: beancount -*-
-**** /Users/george/personal-projects/beancount/bills/微信支付账单(20211008-20220108).csv
-
-2021-10-08 * "56520:冯青兰!" "收款方备注:二维码收款"
-  date: 2021-10-08
-  time: "16:54:02"
-  Assets:Card:CMB:2459       -35.20 CNY
-  Expenses:DailyNecessities   35.20 CNY
-
-2021-10-08 * "舌尖上的嘿小面" "Meituan-舌尖上的嘿小面"
-  date: 2021-10-08
-  time: "12:13:14"
-  Assets:WeChat:Pocket   -1.00 CNY
-  Expenses:FoodBeverage   1.00 CNY
-
-2021-10-09 * "肯德基" "KFC_PREWXPSZ10271633755800187040216"
-  date: 2021-10-09
-  time: "13:03:25"
-  Liabilities:CreditCard:SPD:0083  -39.00 CNY
-  Expenses:FoodBeverage             39.00 CNY
-
-2021-10-10 * "三亚吉阳曾记川渝豌杂面餐饮店" "三亚吉阳曾记胖哥麻辣面馆"
-  date: 2021-10-10
-  time: "19:07:04"
-  Liabilities:CreditCard:SPD:0083  -34.00 CNY
-  Expenses:FoodBeverage             34.00 CNY
-
-2021-10-10 * "和番丼饭" "久久折套餐付款"
-  date: 2021-10-10
-  time: "15:20:57"
-  Liabilities:CreditCard:SPD:0083  -13.00 CNY
-  Expenses:FoodBeverage             13.00 CNY
-
-2021-10-10 * "和番丼饭" "久久折套餐付款"
-  date: 2021-10-10
-  time: "15:07:01"
-  Liabilities:CreditCard:SPD:0083  -94.00 CNY
-  Expenses:FoodBeverage             94.00 CNY
-
-2021-10-11 * "水果" "收款方备注:二维码收款"
-  date: 2021-10-11
-  time: "22:43:26"
-  Assets:Card:CMB:2459   -15.00 CNY
-  Expenses:FoodBeverage   15.00 CNY
-
-2021-10-12 * "炎炎水果" "炎炎水果三亚月川中路店"
-  date: 2021-10-12
-  time: "22:35:05"
-  Liabilities:CreditCard:SPD:0083  -6.00 CNY
-  Expenses:FoodBeverage             6.00 CNY
-
-2021-10-12 * "成都阳光颐和物业管理有限公司三亚分公司" "成都阳光颐和物业管理门店收款1"
-  date: 2021-10-12
-  time: "12:50:53"
-  Liabilities:CreditCard:SPD:0083  -5.00 CNY
-  Expenses:FoodBeverage             5.00 CNY
-
-2021-10-13 * "三亚迎朋酒店公寓管理有限公司" "三亚迎朋酒店公寓管理有限公司"
-  date: 2021-10-13
-  time: "20:52:41"
-  Liabilities:CreditCard:SPD:0083  -60.00 CNY
-  Expenses:HotelTravel              60.00 CNY
-
-2021-10-13 * "成都阳光颐和物业管理有限公司三亚分公司" "成都阳光颐和物业管理门店收款1"
-  date: 2021-10-13
-  time: "12:54:03"
-  Liabilities:CreditCard:SPD:0083  -3.50 CNY
-  Expenses:FoodBeverage             3.50 CNY
-
-2021-10-13 * "肯德基" "KFC_PREWX10011317064366201389056"
-  date: 2021-10-13
-  time: "09:43:49"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-10-14 * "三亚燕塘牛奶" "收款方备注:二维码收款"
-  date: 2021-10-14
-  time: "20:16:57"
-  Assets:Card:CMB:2459   -16.00 CNY
-  Expenses:FoodBeverage   16.00 CNY
-
-2021-10-14 * "肯德基" "KFC_PREWX10011317428488378171392"
-  date: 2021-10-14
-  time: "09:50:33"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-10-15 * "陈运辉" "转账备注:微信转账"
-  date: 2021-10-15
-  time: "15:23:00"
-  Assets:Card:CMB:2459  -523.00 CNY
-  Expenses:Other         523.00 CNY
-
-2021-10-15 * "成都阳光颐和物业管理有限公司三亚分公司" "成都阳光颐和物业管理门店收款1"
-  date: 2021-10-15
-  time: "12:12:00"
-  Liabilities:CreditCard:SPD:0083  -9.00 CNY
-  Expenses:FoodBeverage             9.00 CNY
-
-2021-10-15 * "肯德基" "KFC_PREWX10011317781654395555840"
-  date: 2021-10-15
-  time: "09:13:55"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-10-16 * "A正宗哈尔滨熟食 （海南三亚店）" "收款方备注:二维码收款"
-  date: 2021-10-16
-  time: "13:19:01"
-  Assets:Card:CMB:2459   -58.00 CNY
-  Expenses:FoodBeverage   58.00 CNY
-
-2021-10-16 * "肯德基" "KFC_PREWX10011318155537820532736"
-  date: 2021-10-16
-  time: "09:59:35"
-  Liabilities:CreditCard:SPD:0083  -14.00 CNY
-  Expenses:FoodBeverage             14.00 CNY
-
-2021-10-18 * "张兰" "转账备注:微信转账"
-  date: 2021-10-18
-  time: "20:32:16"
-  Assets:Card:CMB:2459  -1314.00 CNY
-  Expenses:Other         1314.00 CNY
-
-2021-10-18 * "成都阳光颐和物业管理有限公司三亚分公司" "成都阳光颐和物业管理门店收款1"
-  date: 2021-10-18
-  time: "11:50:23"
-  Liabilities:CreditCard:SPD:0083  -10.00 CNY
-  Expenses:FoodBeverage             10.00 CNY
-
-2021-10-18 * "肯德基" "KFC_PREWX10011318863083950923776"
-  date: 2021-10-18
-  time: "08:51:07"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-10-19 * "肯德基" "KFC_PREWX10011319296960045449216"
-  date: 2021-10-19
-  time: "13:35:11"
-  Liabilities:CreditCard:SPD:0083  -39.00 CNY
-  Expenses:FoodBeverage             39.00 CNY
-
-2021-10-20 * "张卫英18876998619" "收款方备注:二维码收款"
-  date: 2021-10-20
-  time: "22:37:06"
-  Assets:Card:CMB:2459       -23.00 CNY
-  Expenses:DailyNecessities   23.00 CNY
-
-2021-10-20 * "晋面皆知" "美团/大众点评点餐订单-1020734615426"
-  date: 2021-10-20
-  time: "19:39:49"
-  Liabilities:CreditCard:SPD:0083  -48.00 CNY
-  Assets:WeChat:Pocket              48.00 CNY
-
-2021-10-20 * "亚马逊中国" "亚马逊电子书包月服务"
-  date: 2021-10-20
-  time: "17:52:53"
-  Liabilities:CreditCard:SPD:0083  -12.00 CNY
-  Expenses:CultureLeisure:Books     12.00 CNY
-
-2021-10-20 * "肯德基" "KFC_PREWX10011319594704539201536"
-  date: 2021-10-20
-  time: "09:18:19"
-  Liabilities:CreditCard:SPD:0083  -18.60 CNY
-  Expenses:FoodBeverage             18.60 CNY
-
-2021-10-21 * "晋面皆知" "美团/大众点评点餐订单-1021791237535"
-  date: 2021-10-21
-  time: "18:38:45"
-  Liabilities:CreditCard:SPD:0083  -46.00 CNY
-  Assets:WeChat:Pocket              46.00 CNY
-
-2021-10-21 * "成都阳光颐和物业管理有限公司三亚分公司" "成都阳光颐和物业管理门店收款1"
-  date: 2021-10-21
-  time: "12:11:27"
-  Assets:WeChat:Pocket   -3.00 CNY
-  Expenses:FoodBeverage   3.00 CNY
-
-2021-10-22 * "晋面皆知" "美团/大众点评点餐订单-1022748013737"
-  date: 2021-10-22
-  time: "18:13:22"
-  Liabilities:CreditCard:SPD:0083  -40.00 CNY
-  Assets:WeChat:Pocket              40.00 CNY
-
-2021-10-22 * "晋面皆知" "美团/大众点评点餐订单-1022725658738"
-  date: 2021-10-22
-  time: "12:58:14"
-  Liabilities:CreditCard:SPD:0083  -40.00 CNY
-  Assets:WeChat:Pocket              40.00 CNY
-
-2021-10-23 * "生财有道" "收款方备注:二维码收款"
-  date: 2021-10-23
-  time: "15:49:29"
-  Assets:Card:CMB:2459       -33.00 CNY
-  Expenses:DailyNecessities   33.00 CNY
-
-2021-10-23 * "曾经当过兵" "收款方备注:二维码收款"
-  date: 2021-10-23
-  time: "15:43:12"
-  Assets:Card:CMB:2459       -128.00 CNY
-  Expenses:DailyNecessities   128.00 CNY
-
-2021-10-23 * "回味坊常德米粉" "收款方备注:二维码收款"
-  date: 2021-10-23
-  time: "12:35:26"
-  Assets:Card:CMB:2459   -57.00 CNY
-  Expenses:FoodBeverage   57.00 CNY
-
-2021-10-24 * "杨记汤面饭" "收款方备注:二维码收款"
-  date: 2021-10-24
-  time: "22:15:10"
-  Liabilities:CreditCard:SPD:0083  -38.00 CNY
-  Expenses:FoodBeverage             38.00 CNY
-
-2021-10-24 * "华庭天下兰州拉面" "收款方备注:二维码收款"
-  date: 2021-10-24
-  time: "14:50:46"
-  Assets:Card:CMB:2459   -35.00 CNY
-  Expenses:FoodBeverage   35.00 CNY
-
-2021-10-24 * "欢朋商场" "收款方备注:二维码收款"
-  date: 2021-10-24
-  time: "14:19:06"
-  Assets:Card:CMB:2459       -6.00 CNY
-  Expenses:DailyNecessities   6.00 CNY
-
-2021-10-25 * "水果" "收款方备注:二维码收款"
-  date: 2021-10-25
-  time: "20:34:50"
-  Assets:Card:CMB:2459   -7.00 CNY
-  Expenses:FoodBeverage   7.00 CNY
-
-2021-10-25 * "晋面皆知" "美团/大众点评点餐订单-1025736660434"
-  date: 2021-10-25
-  time: "13:09:19"
-  Liabilities:CreditCard:SPD:0083  -51.00 CNY
-  Assets:WeChat:Pocket              51.00 CNY
-
-2021-10-25 * "肯德基" "KFC_PREWX10012027700916765700096"
-  date: 2021-10-25
-  time: "09:19:37"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-10-26 * "晋面皆知" "美团/大众点评点餐订单-1026761294644"
-  date: 2021-10-26
-  time: "21:07:23"
-  Liabilities:CreditCard:SPD:0083  -43.00 CNY
-  Assets:WeChat:Pocket              43.00 CNY
-
-2021-10-26 * "三亚百益超市中环店" "三亚百益超市中环店_店长"
-  date: 2021-10-26
-  time: "15:47:56"
-  Liabilities:CreditCard:SPD:0083  -3.50 CNY
-  Expenses:DailyNecessities         3.50 CNY
-
-2021-10-26 * "三亚吉阳园宝饺子店" "三亚吉阳园宝饺子店-消费"
-  date: 2021-10-26
-  time: "15:41:44"
-  Liabilities:CreditCard:SPD:0083  -40.00 CNY
-  Expenses:FoodBeverage             40.00 CNY
-
-2021-10-28 * "晋面皆知" "美团/大众点评点餐订单-1028705787849"
-  date: 2021-10-28
-  time: "13:21:18"
-  Liabilities:CreditCard:SPD:0083  -41.00 CNY
-  Assets:WeChat:Pocket              41.00 CNY
-
-2021-10-29 * "发给Sumi舒萌" "/"
-  date: 2021-10-29
-  time: "21:24:13"
-  Assets:Card:CMB:2459  -100.00 CNY
-  Assets:WeChat:Pocket   100.00 CNY
-
-2021-10-29 * "肯德基" "KFC_PREWX10012029153091997171712"
-  date: 2021-10-29
-  time: "09:30:02"
-  Liabilities:CreditCard:SPD:0083  -23.20 CNY
-  Expenses:FoodBeverage             23.20 CNY
-
-2021-10-30 * "晋面皆知" "美团/大众点评点餐订单-1030704192247"
-  date: 2021-10-30
-  time: "11:17:00"
-  Liabilities:CreditCard:SPD:0083  -51.00 CNY
-  Assets:WeChat:Pocket              51.00 CNY
-
-2021-11-01 * "三亚顶悦要客旅行有限公司" "三亚顶悦要客旅行有限公司"
-  date: 2021-11-01
-  time: "23:10:10"
-  Expenses:HotelTravel             -244.00 CNY
-  Liabilities:CreditCard:SPD:0083   244.00 CNY
-
-2021-11-01 * "三亚顶悦要客旅行有限公司" "当天可定三亚后海冲浪2小时零经验可玩ISA持证教练"
-  date: 2021-11-01
-  time: "23:06:48"
-  Liabilities:CreditCard:SPD:0083  -244.00 CNY
-  Expenses:HotelTravel              244.00 CNY
-
-2021-11-01 * "晋面皆知" "美团/大众点评点餐订单-1101706875753"
-  date: 2021-11-01
-  time: "12:39:22"
-  Liabilities:CreditCard:SPD:0083  -75.00 CNY
-  Assets:WeChat:Pocket              75.00 CNY
-
-2021-11-01 * "肯德基" "KFC_PREWX10012030239201942323200"
-  date: 2021-11-01
-  time: "09:25:51"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-02 * "享购便利店" "收款方备注:二维码收款"
-  date: 2021-11-02
-  time: "20:48:48"
-  Assets:Card:CMB:2459       -6.00 CNY
-  Expenses:DailyNecessities   6.00 CNY
-
-2021-11-02 * "杨记汤面饭" "收款方备注:二维码收款"
-  date: 2021-11-02
-  time: "13:06:17"
-  Liabilities:CreditCard:SPD:0083  -91.00 CNY
-  Expenses:FoodBeverage             91.00 CNY
-
-2021-11-03 * "张卫英18876998619" "收款方备注:二维码收款"
-  date: 2021-11-03
-  time: "22:15:07"
-  Assets:Card:CMB:2459       -3.00 CNY
-  Expenses:DailyNecessities   3.00 CNY
-
-2021-11-03 * "炎炎水果" "炎炎水果三亚月川中路店"
-  date: 2021-11-03
-  time: "12:53:50"
-  Liabilities:CreditCard:SPD:0083  -31.80 CNY
-  Expenses:FoodBeverage             31.80 CNY
-
-2021-11-03 * "回味坊常德米粉" "收款方备注:二维码收款"
-  date: 2021-11-03
-  time: "12:27:37"
-  Assets:Card:CMB:2459   -10.00 CNY
-  Expenses:FoodBeverage   10.00 CNY
-
-2021-11-03 * "肯德基" "KFC_PREWX10012030974837209481216"
-  date: 2021-11-03
-  time: "10:09:00"
-  Liabilities:CreditCard:SPD:0083  -14.00 CNY
-  Expenses:FoodBeverage             14.00 CNY
-
-2021-11-04 * "诚悦商行" "收款方备注:二维码收款"
-  date: 2021-11-04
-  time: "22:45:28"
-  Assets:Card:CMB:2459       -3.00 CNY
-  Expenses:DailyNecessities   3.00 CNY
-
-2021-11-04 * "享购便利店" "收款方备注:二维码收款"
-  date: 2021-11-04
-  time: "19:57:41"
-  Assets:Card:CMB:2459       -4.00 CNY
-  Expenses:DailyNecessities   4.00 CNY
-
-2021-11-04 * "美宜佳" "..."
-  date: 2021-11-04
-  time: "12:38:38"
-  Liabilities:CreditCard:SPD:0083  -7.00 CNY
-  Expenses:DailyNecessities         7.00 CNY
-
-2021-11-04 * "三亚吉阳曾记川渝豌杂面餐饮店" "三亚吉阳曾记胖哥麻辣面馆"
-  date: 2021-11-04
-  time: "12:22:28"
-  Liabilities:CreditCard:SPD:0083  -56.00 CNY
-  Expenses:FoodBeverage             56.00 CNY
-
-2021-11-05 * "肯德基" "KFC_PREWX10012031852248353153024"
-  date: 2021-11-05
-  time: "20:15:31"
-  Liabilities:CreditCard:SPD:0083  -38.50 CNY
-  Expenses:FoodBeverage             38.50 CNY
-
-2021-11-05 * "晋面皆知" "美团/大众点评点餐订单-1105737858359"
-  date: 2021-11-05
-  time: "13:02:24"
-  Liabilities:CreditCard:SPD:0083  -51.00 CNY
-  Assets:WeChat:Pocket              51.00 CNY
-
-2021-11-05 * "肯德基" "KFC_PREWX10012031685052947513344"
-  date: 2021-11-05
-  time: "09:11:09"
-  Liabilities:CreditCard:SPD:0083  -23.20 CNY
-  Expenses:FoodBeverage             23.20 CNY
-
-2021-11-06 * "晋面皆知" "美团/大众点评点餐订单-1106788564668"
-  date: 2021-11-06
-  time: "18:24:00"
-  Liabilities:CreditCard:SPD:0083  -51.00 CNY
-  Assets:WeChat:Pocket              51.00 CNY
-
-2021-11-06 * "肯德基" "KFC_PREWX10012032120541077889024"
-  date: 2021-11-06
-  time: "14:01:36"
-  Liabilities:CreditCard:SPD:0083  -19.50 CNY
-  Expenses:FoodBeverage             19.50 CNY
-
-2021-11-07 * "三亚大小洞天发展有限公司临春岭分公司" "22120265"
-  date: 2021-11-07
-  time: "09:12:07"
-  Liabilities:CreditCard:SPD:0083  -6.00 CNY
-  Expenses:HotelTravel              6.00 CNY
-
-2021-11-07 * "三亚燕塘牛奶" "收款方备注:二维码收款"
-  date: 2021-11-07
-  time: "07:41:53"
-  Assets:Card:CMB:2459   -2.00 CNY
-  Expenses:FoodBeverage   2.00 CNY
-
-2021-11-08 * "昊三肉夹馍" "收款方备注:二维码收款"
-  date: 2021-11-08
-  time: "19:53:56"
-  Assets:Card:CMB:2459   -49.00 CNY
-  Expenses:FoodBeverage   49.00 CNY
-
-2021-11-08 * "美团金融服务" "美团订单-21110811100400000027776407681781"
-  date: 2021-11-08
-  time: "14:29:53"
-  Assets:Card:CMB:2459            -296.20 CNY
-  Liabilities:CreditCard:MeiTuan   296.20 CNY
-
-2021-11-08 * "肯德基" "KFC_PREWX10012032771716185911296"
-  date: 2021-11-08
-  time: "09:09:09"
-  Liabilities:CreditCard:SPD:0083  -23.20 CNY
-  Expenses:FoodBeverage             23.20 CNY
-
-2021-11-09 * "三亚吉阳园宝饺子店" "三亚吉阳园宝饺子店-消费"
-  date: 2021-11-09
-  time: "18:54:25"
-  Liabilities:CreditCard:SPD:0083  -62.00 CNY
-  Expenses:FoodBeverage             62.00 CNY
-
-2021-11-09 * "三亚市卫生健康委员会" "三亚市人民医院"
-  date: 2021-11-09
-  time: "13:15:53"
-  Liabilities:CreditCard:SPD:0083  -60.00 CNY
-  Expenses:HealthCare               60.00 CNY
-
-2021-11-09 * "晋面皆知" "美团/大众点评点餐订单-1109736022170"
-  date: 2021-11-09
-  time: "12:20:47"
-  Liabilities:CreditCard:SPD:0083  -147.00 CNY
-  Assets:WeChat:Pocket              147.00 CNY
-
-2021-11-09 * "肯德基" "KFC_PREWX10012033138460305977344"
-  date: 2021-11-09
-  time: "09:26:27"
-  Liabilities:CreditCard:SPD:0083  -14.00 CNY
-  Expenses:FoodBeverage             14.00 CNY
-
-2021-11-10 * "肯德基" "KFC_PREWX10012033498531876175872"
-  date: 2021-11-10
-  time: "09:17:28"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-11 * "安吉智能芝麻店-组合机相关设备零售收款" "农夫山泉力量帝维他命水柑橘风味500MLNFZF1800468"
-  date: 2021-11-11
-  time: "16:36:40"
-  Liabilities:CreditCard:SPD:0083  -5.50 CNY
-  Expenses:FoodBeverage             5.50 CNY
-
-2021-11-11 * "汉堡王" "BK26596门店_微信自助点餐"
-  date: 2021-11-11
-  time: "11:26:30"
-  Liabilities:CreditCard:SPD:0083  -52.00 CNY
-  Expenses:FoodBeverage             52.00 CNY
-
-2021-11-11 * "水果" "收款方备注:二维码收款"
-  date: 2021-11-11
-  time: "00:11:19"
-  Assets:Card:CMB:2459   -15.00 CNY
-  Expenses:FoodBeverage   15.00 CNY
-
-2021-11-13 * "孙晓翠" "收款方备注:二维码收款"
-  date: 2021-11-13
-  time: "16:32:24"
-  Assets:Card:CMB:2459       -16.00 CNY
-  Expenses:DailyNecessities   16.00 CNY
-
-2021-11-13 * "亿方物业" "亿方双西项目"
-  date: 2021-11-13
-  time: "16:03:30"
-  Liabilities:CreditCard:SPD:0083  -2041.24 CNY
-  Expenses:RealEstate               2041.24 CNY
-
-2021-11-19 * "北京市红十字会急诊抢救中心" "急诊抢救中心-收费"
-  date: 2021-11-19
-  time: "14:12:06"
-  Liabilities:CreditCard:SPD:0083  -58.00 CNY
-  Expenses:HealthCare               58.00 CNY
-
-2021-11-19 * "朴老师" "转账备注:微信转账"
-  date: 2021-11-19
-  time: "09:29:37"
-  Assets:Card:CMB:2459       -500.00 CNY
-  Assets:Receivables:Design   500.00 CNY
-
-2021-11-20 * "丰茂烤串" "支付码351128丰茂烤串（北京学清路店）微信餐厅(7032573892958909154)"
-  date: 2021-11-20
-  time: "22:11:36"
-  Liabilities:CreditCard:SPD:0083  -433.00 CNY
-  Expenses:FoodBeverage             433.00 CNY
-
-2021-11-20 * "亚马逊中国" "亚马逊电子书包月服务"
-  date: 2021-11-20
-  time: "18:12:15"
-  Liabilities:CreditCard:SPD:0083  -12.00 CNY
-  Expenses:CultureLeisure:Books     12.00 CNY
-
-2021-11-21 * "水滴筹" "爱心筹款_85706603_1636983091681"
-  date: 2021-11-21
-  time: "09:08:48"
-  Liabilities:CreditCard:SPD:0083  -100.00 CNY
-  Expenses:Transportation           100.00 CNY
-
-2021-11-22 * "和番丼饭" "久久折套餐付款"
-  date: 2021-11-22
-  time: "19:50:31"
-  Liabilities:CreditCard:SPD:0083  -40.00 CNY
-  Expenses:FoodBeverage             40.00 CNY
-
-2021-11-22 * "肯德基" "KFC_PREWX10012037912710872514560"
-  date: 2021-11-22
-  time: "13:37:38"
-  Liabilities:CreditCard:SPD:0083  -19.50 CNY
-  Expenses:FoodBeverage             19.50 CNY
-
-2021-11-22 * "肯德基" "KFC_PREWX10012037843881228259328"
-  date: 2021-11-22
-  time: "09:04:11"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-23 * "晋面皆知" "美团/大众点评点餐订单-1123765714800"
-  date: 2021-11-23
-  time: "12:41:54"
-  Liabilities:CreditCard:SPD:0083  -114.00 CNY
-  Assets:WeChat:Pocket              114.00 CNY
-
-2021-11-23 * "肯德基" "KFC_PREWX10012038204383728898049"
-  date: 2021-11-23
-  time: "08:56:39"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-11-24 * "三亚麦金地餐厅" "00008256"
-  date: 2021-11-24
-  time: "12:07:01"
-  Liabilities:CreditCard:SPD:0083  -66.30 CNY
-  Expenses:FoodBeverage             66.30 CNY
-
-2021-11-24 * "云港科技" "咨询13691231158订单417069440手机13426163062"
-  date: 2021-11-24
-  time: "11:53:10"
-  Liabilities:CreditCard:SPD:0083  -1.00 CNY
-  Expenses:HotelTravel              1.00 CNY
-
-2021-11-24 * "肯德基" "KFC_PREWX10012038569971035631616"
-  date: 2021-11-24
-  time: "09:09:21"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-25 * "晋面皆知" "美团/大众点评点餐订单-1125722767101"
-  date: 2021-11-25
-  time: "12:31:46"
-  Liabilities:CreditCard:SPD:0083  -68.00 CNY
-  Assets:WeChat:Pocket              68.00 CNY
-
-2021-11-25 * "肯德基" "KFC_PREWXPSZ10271637804036844156934"
-  date: 2021-11-25
-  time: "09:34:03"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-26 * "晋面皆知" "美团/大众点评点餐订单-1126726792298"
-  date: 2021-11-26
-  time: "11:56:28"
-  Liabilities:CreditCard:SPD:0083  -35.00 CNY
-  Assets:WeChat:Pocket              35.00 CNY
-
-2021-11-27 * "和番丼饭" "久久折套餐付款"
-  date: 2021-11-27
-  time: "13:23:37"
-  Liabilities:CreditCard:SPD:0083  -27.50 CNY
-  Expenses:FoodBeverage             27.50 CNY
-
-2021-11-27 * "和番丼饭" "久久折套餐付款"
-  date: 2021-11-27
-  time: "13:06:39"
-  Liabilities:CreditCard:SPD:0083  -31.00 CNY
-  Expenses:FoodBeverage             31.00 CNY
-
-2021-11-27 * "肯德基" "KFC_PREWXPSZ10271637976519581056689"
-  date: 2021-11-27
-  time: "09:28:47"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-11-28 * "晋面皆知" "美团/大众点评点餐订单-1128746955811"
-  date: 2021-11-28
-  time: "13:12:51"
-  Liabilities:CreditCard:SPD:0083  -48.00 CNY
-  Assets:WeChat:Pocket              48.00 CNY
-
-2021-11-29 * "晋面皆知" "美团/大众点评点餐订单-1129762106103"
-  date: 2021-11-29
-  time: "20:00:09"
-  Liabilities:CreditCard:SPD:0083  -73.00 CNY
-  Assets:WeChat:Pocket              73.00 CNY
-
-2021-11-30 * "肯德基" "KFC_PREWXPSZ10271638235157450046843"
-  date: 2021-11-30
-  time: "09:19:22"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-12-01 * "肯德基" "KFC_PREWXPSZ10271638323912873254878"
-  date: 2021-12-01
-  time: "09:58:37"
-  Liabilities:CreditCard:SPD:0083  -14.00 CNY
-  Expenses:FoodBeverage             14.00 CNY
-
-2021-12-02 * "皇包车" "皇包车"
-  date: 2021-12-02
-  time: "18:48:57"
-  Expenses:HotelTravel             -122.00 CNY
-  Liabilities:CreditCard:SPD:0083   122.00 CNY
-
-2021-12-02 * "皇包车" "咨询13691231158订单418449458手机13426163062"
-  date: 2021-12-02
-  time: "18:45:45"
-  Liabilities:CreditCard:SPD:0083  -122.00 CNY
-  Expenses:HotelTravel              122.00 CNY
-
-2021-12-02 * "云港科技" "云港科技"
-  date: 2021-12-02
-  time: "17:51:06"
-  Expenses:HotelTravel             -0.90 CNY
-  Liabilities:CreditCard:SPD:0083   0.90 CNY
-
-2021-12-04 * "晋面皆知" "美团/大众点评点餐订单-1204847706821"
-  date: 2021-12-04
-  time: "12:46:42"
-  Liabilities:CreditCard:SPD:0083  -64.00 CNY
-  Assets:WeChat:Pocket              64.00 CNY
-
-2021-12-05 * "杨记汤面饭" "收款方备注:二维码收款"
-  date: 2021-12-05
-  time: "18:35:38"
-  Liabilities:CreditCard:SPD:0083  -48.00 CNY
-  Expenses:FoodBeverage             48.00 CNY
-
-2021-12-05 * "三亚吉阳曾记川渝豌杂面餐饮店" "三亚吉阳曾记胖哥麻辣面馆"
-  date: 2021-12-05
-  time: "13:16:20"
-  Liabilities:CreditCard:SPD:0083  -56.00 CNY
-  Expenses:FoodBeverage             56.00 CNY
-
-2021-12-06 * "王鑫Sherry" "转账备注:微信转账"
-  date: 2021-12-06
-  time: "19:52:55"
-  Assets:Card:CMB:2459              -1000.00 CNY
-  Assets:Receivables:WangXinSherry   1000.00 CNY
-
-2021-12-06 * "美团金融服务" "美团订单-21120611100400000020275534915781"
-  date: 2021-12-06
-  time: "18:57:44"
-  Assets:Card:CMB:2459            -219.00 CNY
-  Liabilities:CreditCard:MeiTuan   219.00 CNY
-
-2021-12-06 * "愚小面" "美团/大众点评点餐订单-1206816319422"
-  date: 2021-12-06
-  time: "12:56:00"
-  Liabilities:CreditCard:SPD:0083  -29.00 CNY
-  Assets:WeChat:Pocket              29.00 CNY
-
-2021-12-07 * "享购便利店" "收款方备注:二维码收款"
-  date: 2021-12-07
-  time: "22:07:02"
-  Assets:Card:CMB:2459       -4.00 CNY
-  Expenses:DailyNecessities   4.00 CNY
-
-2021-12-08 * "肯德基" "KFC_PREWXPSZ10271638925919396255114"
-  date: 2021-12-08
-  time: "09:12:03"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-12-09 * "回味坊常德米粉" "收款方备注:二维码收款"
-  date: 2021-12-09
-  time: "12:36:25"
-  Assets:Card:CMB:2459   -4.00 CNY
-  Expenses:FoodBeverage   4.00 CNY
-
-2021-12-09 * "回味坊常德米粉" "收款方备注:二维码收款"
-  date: 2021-12-09
-  time: "12:35:30"
-  Assets:Card:CMB:2459   -61.00 CNY
-  Expenses:FoodBeverage   61.00 CNY
-
-2021-12-09 * "皇包车" "皇包车"
-  date: 2021-12-09
-  time: "11:36:21"
-  Expenses:HotelTravel             -1.00 CNY
-  Liabilities:CreditCard:SPD:0083   1.00 CNY
-
-2021-12-09 * "皇包车" "皇包车"
-  date: 2021-12-09
-  time: "11:21:12"
-  Liabilities:CreditCard:SPD:0083  -1.00 CNY
-  Expenses:HotelTravel              1.00 CNY
-
-2021-12-09 * "肯德基" "KFC_PREWXPSZ10271639012837340053354"
-  date: 2021-12-09
-  time: "09:20:41"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-12-12 * "三亚凤凰岭文化旅游有限公司" "客服中心"
-  date: 2021-12-12
-  time: "17:55:41"
-  Liabilities:CreditCard:SPD:0083  -1.00 CNY
-  Expenses:HotelTravel              1.00 CNY
-
-2021-12-12 * "云港科技" "订单420533363手机13426163062|三亚凤凰岭海誓山盟景区门票+往返"
-  date: 2021-12-12
-  time: "16:57:38"
-  Liabilities:CreditCard:SPD:0083  -139.00 CNY
-  Expenses:HotelTravel              139.00 CNY
-
-2021-12-12 * "肯德基" "KFC_PREWXPSZ10271639272376945002704"
-  date: 2021-12-12
-  time: "09:26:21"
-  Liabilities:CreditCard:SPD:0083  -20.80 CNY
-  Expenses:FoodBeverage             20.80 CNY
-
-2021-12-13 * "肯德基" "KFC_PREWXPSZ10271639360160230044804"
-  date: 2021-12-13
-  time: "09:49:24"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-12-14 * "肯德基" "KFC_PREWXPSZ10271639445412878134564"
-  date: 2021-12-14
-  time: "09:30:23"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-12-15 * "肯德基" "KFC_PREWXPSZ10271639531305272194990"
-  date: 2021-12-15
-  time: "09:21:51"
-  Liabilities:CreditCard:SPD:0083  -14.40 CNY
-  Expenses:FoodBeverage             14.40 CNY
-
-2021-12-16 * "绿茶餐厅" "绿茶三亚海棠湾店"
-  date: 2021-12-16
-  time: "12:55:08"
-  Liabilities:CreditCard:SPD:0083  -84.00 CNY
-  Expenses:FoodBeverage             84.00 CNY
-
-2021-12-17 * "王鑫Sherry" "转账备注:还之前设计的钱"
-  date: 2021-12-17
-  time: "16:00:01"
-  Assets:Receivables:WangXinSherry  -1000.00 CNY
-  Assets:WeChat:Pocket               1000.00 CNY
-
-2021-12-18 * "愚小面" "美团/大众点评点餐订单-1218855325552"
-  date: 2021-12-18
-  time: "11:56:01"
-  Assets:WeChat:Pocket  -36.00 CNY
-  Assets:WeChat:Pocket   36.00 CNY
-
-2021-12-20 * "亚马逊中国" "亚马逊电子书包月服务"
-  date: 2021-12-20
-  time: "17:45:52"
-  Liabilities:CreditCard:SPD:0083  -12.00 CNY
-  Expenses:CultureLeisure:Books     12.00 CNY
-
-2021-12-20 * "肯德基" "KFC_PREWXPSZ10271639976376347054381"
-  date: 2021-12-20
-  time: "12:59:41"
-  Assets:WeChat:Pocket   -92.00 CNY
-  Expenses:FoodBeverage   92.00 CNY
-
-2021-12-21 * "肯德基" "KFC_PREWXPSZ10271640050102214006655"
-  date: 2021-12-21
-  time: "09:28:28"
-  Assets:WeChat:Pocket   -23.20 CNY
-  Expenses:FoodBeverage   23.20 CNY
-
-2021-12-22 * "肯德基" "KFC_PREWXPSZ10271640136744412006869"
-  date: 2021-12-22
-  time: "09:32:29"
-  Assets:WeChat:Pocket   -23.20 CNY
-  Expenses:FoodBeverage   23.20 CNY
-
-2021-12-23 * "晋面皆知" "美团/大众点评点餐订单-1223861892557"
-  date: 2021-12-23
-  time: "13:00:12"
-  Assets:WeChat:Pocket  -55.00 CNY
-  Assets:WeChat:Pocket   55.00 CNY
-
-2021-12-23 * "肯德基" "KFC_PREWXPSZ10271640222171600046341"
-  date: 2021-12-23
-  time: "09:16:17"
-  Assets:WeChat:Pocket   -56.60 CNY
-  Expenses:FoodBeverage   56.60 CNY
-
-2021-12-24 * "享购便利店" "收款方备注:二维码收款"
-  date: 2021-12-24
-  time: "21:02:22"
-  Assets:WeChat:Pocket       -4.00 CNY
-  Expenses:DailyNecessities   4.00 CNY
-
-2021-12-24 * "肯德基" "KFC_PREWXPSZ10271640309867126002095"
-  date: 2021-12-24
-  time: "09:37:52"
-  Assets:WeChat:Pocket   -20.80 CNY
-  Expenses:FoodBeverage   20.80 CNY
-
-2021-12-26 * "愚小面" "美团/大众点评点餐订单-1226820306262"
-  date: 2021-12-26
-  time: "12:41:38"
-  Assets:WeChat:Pocket  -28.00 CNY
-  Assets:WeChat:Pocket   28.00 CNY
-
-2021-12-27 * "微保" "微医保·医疗险"
-  date: 2021-12-27
-  time: "18:14:57"
-  Assets:WeChat:Pocket  -259.00 CNY
-  Expenses:HealthCare    259.00 CNY
-
-2021-12-27 * "微保" "微医保·医疗险"
-  date: 2021-12-27
-  time: "18:14:21"
-  Assets:WeChat:Pocket  -233.00 CNY
-  Expenses:HealthCare    233.00 CNY
-
-2021-12-27 * "东北绝味包子老太太" "收款方备注:二维码收款"
-  date: 2021-12-27
-  time: "09:20:25"
-  Assets:WeChat:Pocket   -24.00 CNY
-  Expenses:FoodBeverage   24.00 CNY
-
-2021-12-28 * "肯德基" "KFC_PREWXPSZ10271640653578888251205"
-  date: 2021-12-28
-  time: "09:06:23"
-  Assets:WeChat:Pocket   -18.60 CNY
-  Expenses:FoodBeverage   18.60 CNY
-
-2021-12-30 * "晋面皆知" "美团/大众点评点餐订单-1230824199070"
-  date: 2021-12-30
-  time: "13:23:35"
-  Assets:WeChat:Pocket  -20.00 CNY
-  Assets:WeChat:Pocket   20.00 CNY
-
-2021-12-31 * "肯德基" "KFC_PREWXPSZ10271640914739141244798"
-  date: 2021-12-31
-  time: "09:39:07"
-  Assets:WeChat:Pocket   -23.20 CNY
-  Expenses:FoodBeverage   23.20 CNY
+**** /Users/george/personal-projects/beancount/bills/微信支付账单(20220101-20220301).csv
 
 2022-01-01 * "晋面皆知" "美团/大众点评点餐订单-0101859244681"
   date: 2022-01-01
   time: "17:12:52"
-  Assets:WeChat:Pocket  -33.00 CNY
-  Assets:WeChat:Pocket   33.00 CNY
+  Assets:WeChat:Pocket            -33.00 CNY
+  Expenses:FoodBeverage:Takeaway   33.00 CNY
 
 2022-01-02 * "肯德基" "KFC_PREWXPSZ10271641083184676254004"
   date: 2022-01-02
@@ -887,7 +23,7 @@
   date: 2022-01-04
   time: "12:37:08"
   Liabilities:CreditCard:SPD:0083  -64.00 CNY
-  Assets:WeChat:Pocket              64.00 CNY
+  Expenses:FoodBeverage:Takeaway    64.00 CNY
 
 2022-01-04 * "肯德基" "KFC_PREWXPSZ10271641260018388045781"
   date: 2022-01-04
@@ -899,7 +35,7 @@
   date: 2022-01-05
   time: "20:28:56"
   Liabilities:CreditCard:SPD:0083  -20.00 CNY
-  Assets:WeChat:Pocket              20.00 CNY
+  Expenses:FoodBeverage:Takeaway    20.00 CNY
 
 2022-01-05 * "肯德基" "KFC_PREWXPSZ10271641346645879198600"
   date: 2022-01-05
@@ -911,7 +47,7 @@
   date: 2022-01-06
   time: "12:21:40"
   Liabilities:CreditCard:SPD:0083  -25.00 CNY
-  Assets:WeChat:Pocket              25.00 CNY
+  Expenses:FoodBeverage:Takeaway    25.00 CNY
 
 2022-01-06 * "肯德基" "KFC_PREWXPSZ10271641433512481050471"
   date: 2022-01-06
@@ -923,12 +59,522 @@
   date: 2022-01-07
   time: "13:57:10"
   Liabilities:CreditCard:SPD:0083  -38.00 CNY
-  Assets:WeChat:Pocket              38.00 CNY
+  Expenses:FoodBeverage:Takeaway    38.00 CNY
+
+2022-01-08 * "美团金融服务" "美团订单-22010811100400000023469352431781"
+  date: 2022-01-08
+  time: "17:39:34"
+  Assets:Card:CMB:2459            -849.92 CNY
+  Liabilities:CreditCard:MeiTuan   849.92 CNY
 
 2022-01-08 * "愚小面" "美团/大众点评点餐订单-0108888273183"
   date: 2022-01-08
   time: "11:50:22"
   Liabilities:CreditCard:SPD:0083  -37.00 CNY
-  Assets:WeChat:Pocket              37.00 CNY
+  Expenses:FoodBeverage:Takeaway    37.00 CNY
+
+2022-01-10 * "和番丼饭" "久久折套餐付款"
+  date: 2022-01-10
+  time: "19:41:26"
+  Liabilities:CreditCard:SPD:0083  -31.00 CNY
+  Expenses:FoodBeverage             31.00 CNY
+
+2022-01-10 * "舌尖上的嘿小面" "Meituan-四川的嘿烧烤"
+  date: 2022-01-10
+  time: "13:14:58"
+  Liabilities:CreditCard:SPD:0083  -78.00 CNY
+  Expenses:FoodBeverage             78.00 CNY
+
+2022-01-10 * "瑞海花园客服中心" "收款方备注:二维码收款"
+  date: 2022-01-10
+  time: "09:30:00"
+  Assets:Card:CMB:2459  -5.00 CNY
+  Expenses:CarCare       5.00 CNY
+
+2022-01-11 * "愚小面" "美团/大众点评点餐订单-0111872026899"
+  date: 2022-01-11
+  time: "19:36:18"
+  Liabilities:CreditCard:SPD:0083  -28.00 CNY
+  Expenses:FoodBeverage:Takeaway    28.00 CNY
+
+2022-01-11 * "晋面皆知" "美团/大众点评点餐订单-0111807416800"
+  date: 2022-01-11
+  time: "12:21:27"
+  Liabilities:CreditCard:SPD:0083  -33.00 CNY
+  Expenses:FoodBeverage:Takeaway    33.00 CNY
+
+2022-01-11 * "肯德基" "KFC_PREWXPSZ10271641857406173005944"
+  date: 2022-01-11
+  time: "07:30:12"
+  Liabilities:CreditCard:SPD:0083  -16.80 CNY
+  Expenses:FoodBeverage             16.80 CNY
+
+2022-01-12 * "愚小面" "美团/大众点评点餐订单-0112893326097"
+  date: 2022-01-12
+  time: "20:15:35"
+  Liabilities:CreditCard:SPD:0083  -28.00 CNY
+  Expenses:FoodBeverage:Takeaway    28.00 CNY
+
+2022-01-12 * "晋面皆知" "美团/大众点评点餐订单-0112802894999"
+  date: 2022-01-12
+  time: "12:58:54"
+  Liabilities:CreditCard:SPD:0083  -61.00 CNY
+  Expenses:FoodBeverage:Takeaway    61.00 CNY
+
+2022-01-12 * "肯德基" "KFC_PREWXPSZ10271641954496481044032"
+  date: 2022-01-12
+  time: "10:28:22"
+  Liabilities:CreditCard:SPD:0083  -16.80 CNY
+  Expenses:FoodBeverage             16.80 CNY
+
+2022-01-13 * "晋面皆知" "美团/大众点评点餐订单-0113883633301"
+  date: 2022-01-13
+  time: "19:56:51"
+  Liabilities:CreditCard:SPD:0083  -28.50 CNY
+  Expenses:FoodBeverage:Takeaway    28.50 CNY
+
+2022-01-13 * "愚小面" "美团/大众点评点餐订单-0113841293195"
+  date: 2022-01-13
+  time: "13:11:36"
+  Liabilities:CreditCard:SPD:0083  -84.00 CNY
+  Expenses:FoodBeverage:Takeaway    84.00 CNY
+
+2022-01-13 * "肯德基" "KFC_PREWXPSZ10271642037115173047905"
+  date: 2022-01-13
+  time: "09:25:21"
+  Liabilities:CreditCard:SPD:0083  -16.80 CNY
+  Expenses:FoodBeverage             16.80 CNY
+
+2022-01-14 * "旭日东升" "收款方备注:二维码收款"
+  date: 2022-01-14
+  time: "13:39:09"
+  Assets:Card:CMB:2459       -240.00 CNY
+  Expenses:DailyNecessities   240.00 CNY
+
+2022-01-14 * "肯德基" "KFC_PREWXPSZ10271642123665896052981"
+  date: 2022-01-14
+  time: "09:27:53"
+  Liabilities:CreditCard:SPD:0083  -16.80 CNY
+  Expenses:FoodBeverage             16.80 CNY
+
+2022-01-15 * "晋面皆知" "美团/大众点评点餐订单-0115841056709"
+  date: 2022-01-15
+  time: "20:11:33"
+  Liabilities:CreditCard:SPD:0083  -49.00 CNY
+  Expenses:FoodBeverage:Takeaway    49.00 CNY
+
+2022-01-16 * "望京小腰" "餐台5结账1000060075"
+  date: 2022-01-16
+  time: "23:59:45"
+  Liabilities:CreditCard:SPD:0083  -242.00 CNY
+  Expenses:FoodBeverage             242.00 CNY
+
+2022-01-16 * "海南罗森" "LAWSON_HN阳光金融店消费"
+  date: 2022-01-16
+  time: "19:56:02"
+  Liabilities:CreditCard:SPD:0083  -4.00 CNY
+  Expenses:DailyNecessities         4.00 CNY
+
+2022-01-17 * "晋面皆知" "美团/大众点评点餐订单-0117835548104"
+  date: 2022-01-17
+  time: "20:42:28"
+  Liabilities:CreditCard:SPD:0083  -49.00 CNY
+  Expenses:FoodBeverage:Takeaway    49.00 CNY
+
+2022-01-17 * "愚小面" "美团收银909700177088275261"
+  date: 2022-01-17
+  time: "12:52:17"
+  Liabilities:CreditCard:SPD:0083  -50.00 CNY
+  Expenses:FoodBeverage             50.00 CNY
+
+2022-01-18 * "晋面皆知" "美团/大众点评点餐订单-0118884844304"
+  date: 2022-01-18
+  time: "19:35:51"
+  Assets:WeChat:Pocket            -49.00 CNY
+  Expenses:FoodBeverage:Takeaway   49.00 CNY
+
+2022-01-18 * "张兰" "转账备注:不念过往，不畏将来，无病无灾，顺顺当当！"
+  date: 2022-01-18
+  time: "10:10:40"
+  Expenses:Other        -520.00 CNY
+  Assets:WeChat:Pocket   520.00 CNY
+
+2022-01-19 * "愚小面" "美团/大众点评点餐订单-0119823353504"
+  date: 2022-01-19
+  time: "19:35:12"
+  Assets:WeChat:Pocket            -28.00 CNY
+  Expenses:FoodBeverage:Takeaway   28.00 CNY
+
+2022-01-19 * "松涛" "转账备注:微信转账"
+  date: 2022-01-19
+  time: "15:48:27"
+  Expenses:Other        -19.00 CNY
+  Assets:WeChat:Pocket   19.00 CNY
+
+2022-01-19 * "愚小面" "美团/大众点评点餐订单-0119894703409"
+  date: 2022-01-19
+  time: "13:06:43"
+  Assets:WeChat:Pocket            -37.00 CNY
+  Expenses:FoodBeverage:Takeaway   37.00 CNY
+
+2022-01-20 * "晋面皆知" "美团/大众点评点餐订单-0120916443622"
+  date: 2022-01-20
+  time: "20:11:39"
+  Assets:WeChat:Pocket            -28.50 CNY
+  Expenses:FoodBeverage:Takeaway   28.50 CNY
+
+2022-01-20 * "亚马逊中国" "亚马逊电子书包月服务"
+  date: 2022-01-20
+  time: "18:02:17"
+  Liabilities:CreditCard:SPD:0083  -12.00 CNY
+  Expenses:CultureLeisure:Books     12.00 CNY
+
+2022-01-20 * "海南罗森" "LAWSON_HN阳光金融店消费"
+  date: 2022-01-20
+  time: "13:48:28"
+  Liabilities:CreditCard:SPD:0083  -7.00 CNY
+  Expenses:DailyNecessities         7.00 CNY
+
+2022-01-20 * "三亚市卫生健康委员会" "三亚市人民医院"
+  date: 2022-01-20
+  time: "13:44:00"
+  Assets:WeChat:Pocket  -40.00 CNY
+  Expenses:HealthCare    40.00 CNY
+
+2022-01-20 * "京东商城平台商户" "京东-订单编号236651677004"
+  date: 2022-01-20
+  time: "12:57:50"
+  Liabilities:CreditCard:SPD:0083  -1337.42 CNY
+  Expenses:Repayment                1337.42 CNY
+
+2022-01-20 * "肯德基" "KFC_PREWX10012059234522920792064"
+  date: 2022-01-20
+  time: "09:42:55"
+  Assets:WeChat:Pocket   -16.80 CNY
+  Expenses:FoodBeverage   16.80 CNY
+
+2022-01-21 * "汉堡王" "BK26596门店_微信自助点餐"
+  date: 2022-01-21
+  time: "11:55:59"
+  Assets:WeChat:Pocket   -56.00 CNY
+  Expenses:FoodBeverage   56.00 CNY
+
+2022-01-21 * "瑞海花园客服中心" "收款方备注:二维码收款"
+  date: 2022-01-21
+  time: "10:17:23"
+  Assets:WeChat:Pocket  -8.00 CNY
+  Expenses:CarCare       8.00 CNY
+
+2022-01-25 * "北京市医院管理中心" "北京同仁医院崇文门院区(东西区)-缴费订单-眼科综合门诊(西区)"
+  date: 2022-01-25
+  time: "09:59:03"
+  Assets:WeChat:Pocket  -93.91 CNY
+  Expenses:HealthCare    93.91 CNY
+
+2022-01-25 * "北京市医院管理中心" "北京同仁医院崇文门院区(东西区)-缴费订单-眼科综合门诊(西区)"
+  date: 2022-01-25
+  time: "09:57:21"
+  Assets:Card:CMB:2459  -251.68 CNY
+  Expenses:HealthCare    251.68 CNY
+
+2022-01-25 * "北京市医院管理中心" "北京同仁医院崇文门院区(东西区)-缴费订单-眼科综合门诊(西区)"
+  date: 2022-01-25
+  time: "08:59:57"
+  Assets:WeChat:Pocket  -137.00 CNY
+  Expenses:HealthCare    137.00 CNY
+
+2022-01-28 * "祥祥" "收款方备注:二维码收款"
+  date: 2022-01-28
+  time: "16:32:25"
+  Assets:Card:CMB:2459       -65.00 CNY
+  Expenses:DailyNecessities   65.00 CNY
+
+2022-01-28 * "北京市海淀医院" "患者曹文瑜自助缴费"
+  date: 2022-01-28
+  time: "15:30:47"
+  Liabilities:CreditCard:SPD:0083  -319.36 CNY
+  Expenses:HealthCare               319.36 CNY
+
+2022-01-29 * "张兰" "转账备注:微信转账"
+  date: 2022-01-29
+  time: "21:05:31"
+  Assets:Card:CMB:2459  -1600.00 CNY
+  Expenses:Other         1600.00 CNY
+
+2022-01-29 * "海淀和易副食商店" "收款方备注:二维码收款"
+  date: 2022-01-29
+  time: "16:32:37"
+  Assets:Card:CMB:2459   -26.50 CNY
+  Expenses:FoodBeverage   26.50 CNY
+
+2022-01-29 * "北京康旭医学检验所有限公司" "北京康旭医学检验所有限公司-收款"
+  date: 2022-01-29
+  time: "16:18:11"
+  Assets:WeChat:Pocket  -35.00 CNY
+  Expenses:HealthCare    35.00 CNY
+
+2022-01-30 * "/" "转账备注:微信转账"
+  date: 2022-01-30
+  time: "21:06:56"
+  Assets:WeChat:Pocket  -1600.00 CNY
+  Assets:Card:CMB:2459   1600.00 CNY
+
+2022-01-31 * "张兰" "/"
+  date: 2022-01-31
+  time: "19:20:58"
+  Assets:WeChat:Pocket  -15.49 CNY
+  Assets:WeChat:Pocket   15.49 CNY
+
+2022-02-01 * "张治" "/"
+  date: 2022-02-01
+  time: "12:41:24"
+  Assets:WeChat:Pocket  -82.08 CNY
+  Assets:WeChat:Pocket   82.08 CNY
+
+2022-02-01 * "Fade2Black" "/"
+  date: 2022-02-01
+  time: "12:40:23"
+  Assets:WeChat:Pocket  -32.39 CNY
+  Assets:WeChat:Pocket   32.39 CNY
+
+2022-02-01 * "发出群红包" "/"
+  date: 2022-02-01
+  time: "12:17:57"
+  Assets:WeChat:Pocket  -200.00 CNY
+  Assets:WeChat:Pocket   200.00 CNY
+
+2022-02-01 * "骆驼" "/"
+  date: 2022-02-01
+  time: "12:12:25"
+  Assets:WeChat:Pocket  -69.11 CNY
+  Assets:WeChat:Pocket   69.11 CNY
+
+2022-02-01 * "回家" "/"
+  date: 2022-02-01
+  time: "12:12:17"
+  Assets:WeChat:Pocket  -15.77 CNY
+  Assets:WeChat:Pocket   15.77 CNY
+
+2022-02-01 * "张兰" "/"
+  date: 2022-02-01
+  time: "12:12:07"
+  Assets:WeChat:Pocket  -12.79 CNY
+  Assets:WeChat:Pocket   12.79 CNY
+
+2022-02-01 * "骆驼" "转账备注:祝小乐春节快乐！虎年吉祥如意！"
+  date: 2022-02-01
+  time: "12:12:02"
+  Expenses:Other        -600.00 CNY
+  Assets:WeChat:Pocket   600.00 CNY
+
+2022-02-01 * "骆驼" "转账备注:祝小宝春节快乐！虎年吉祥如意！"
+  date: 2022-02-01
+  time: "12:11:49"
+  Expenses:Other        -600.00 CNY
+  Assets:WeChat:Pocket   600.00 CNY
+
+2022-02-05 * "光辉岁月" "转账备注:微信转账"
+  date: 2022-02-05
+  time: "19:16:21"
+  Assets:Card:CMB:2459  -1000.00 CNY
+  Expenses:Other         1000.00 CNY
+
+2022-02-05 * "静观其变" "/"
+  date: 2022-02-05
+  time: "19:12:16"
+  Assets:WeChat:Pocket  -0.93 CNY
+  Assets:WeChat:Pocket   0.93 CNY
+
+2022-02-05 * "张治" "/"
+  date: 2022-02-05
+  time: "17:40:00"
+  Assets:WeChat:Pocket  -32.52 CNY
+  Assets:WeChat:Pocket   32.52 CNY
+
+2022-02-05 * "发出群红包" "/"
+  date: 2022-02-05
+  time: "17:38:53"
+  Assets:WeChat:Pocket  -200.00 CNY
+  Assets:WeChat:Pocket   200.00 CNY
+
+2022-02-05 * "张治" "/"
+  date: 2022-02-05
+  time: "17:32:25"
+  Assets:WeChat:Pocket  -10.08 CNY
+  Assets:WeChat:Pocket   10.08 CNY
+
+2022-02-05 * "发出群红包" "/"
+  date: 2022-02-05
+  time: "17:24:21"
+  Assets:WeChat:Pocket  -200.00 CNY
+  Assets:WeChat:Pocket   200.00 CNY
+
+2022-02-07 * "北京市海淀区圆明园旅游服务公司" "北京市海淀区圆明园旅游服务有限公司"
+  date: 2022-02-07
+  time: "16:06:24"
+  Assets:WeChat:Pocket     -2.50 CNY
+  Expenses:CultureLeisure   2.50 CNY
+
+2022-02-07 * "华车云库" "华车云库-2元 停车费"
+  date: 2022-02-07
+  time: "15:17:06"
+  Assets:WeChat:Pocket  -2.00 CNY
+  Expenses:CarCare       2.00 CNY
+
+2022-02-07 * "发出群红包" "/"
+  date: 2022-02-07
+  time: "10:52:36"
+  Assets:WeChat:Pocket  -100.00 CNY
+  Assets:WeChat:Pocket   100.00 CNY
+
+2022-02-08 * "刘芳。苍白klm。" "收款方备注:二维码收款"
+  date: 2022-02-08
+  time: "15:14:11"
+  Expenses:DailyNecessities  -200.00 CNY
+  Assets:WeChat:Pocket        200.00 CNY
+
+2022-02-08 * "张玉荣" "收款方备注:二维码收款"
+  date: 2022-02-08
+  time: "14:27:06"
+  Assets:WeChat:Pocket       -320.00 CNY
+  Expenses:DailyNecessities   320.00 CNY
+
+2022-02-08 * "水" "收款方备注:二维码收款"
+  date: 2022-02-08
+  time: "13:12:30"
+  Assets:WeChat:Pocket       -120.00 CNY
+  Expenses:DailyNecessities   120.00 CNY
+
+2022-02-08 * "/" "/"
+  date: 2022-02-08
+  time: "10:52:39"
+  Assets:WeChat:Pocket  -28.32 CNY
+  Assets:WeChat:Pocket   28.32 CNY
+
+2022-02-09 * "美团金融服务" "美团订单-22020911100400000026278747612781"
+  date: 2022-02-09
+  time: "16:20:52"
+  Assets:WeChat:Pocket            -527.76 CNY
+  Liabilities:CreditCard:MeiTuan   527.76 CNY
+
+2022-02-09 * "海淀和易副食商店" "收款方备注:二维码收款"
+  date: 2022-02-09
+  time: "10:48:17"
+  Assets:WeChat:Pocket   -4.00 CNY
+  Expenses:FoodBeverage   4.00 CNY
+
+2022-02-11 * "主食厨房北京双榆树店" "主食厨房北京双榆树店"
+  date: 2022-02-11
+  time: "11:53:44"
+  Assets:WeChat:Pocket   -4.00 CNY
+  Expenses:FoodBeverage   4.00 CNY
+
+2022-02-13 * "滴滴出行" "滴滴打车-林师傅"
+  date: 2022-02-13
+  time: "12:55:13"
+  Assets:WeChat:Pocket          -17.00 CNY
+  Expenses:Transportation:Taxi   17.00 CNY
+
+2022-02-17 * "京东商城平台商户" "京东-订单编号236280983000"
+  date: 2022-02-17
+  time: "01:58:10"
+  Liabilities:CreditCard:SPD:0083  -117.00 CNY
+  Expenses:Repayment                117.00 CNY
+
+2022-02-18 * "撒拉花儿" "撒拉花儿双榆树店-扫码付-YY00501-220218-00591222"
+  date: 2022-02-18
+  time: "13:32:43"
+  Liabilities:CreditCard:SPD:0083  -93.00 CNY
+  Expenses:FoodBeverage             93.00 CNY
+
+2022-02-19 * "超市发双榆树店" "超市发双榆树店"
+  date: 2022-02-19
+  time: "18:25:28"
+  Liabilities:CreditCard:SPD:0083  -210.86 CNY
+  Expenses:DailyNecessities         210.86 CNY
+
+2022-02-19 * "超市发双榆树店" "超市发双榆树店"
+  date: 2022-02-19
+  time: "17:53:36"
+  Liabilities:CreditCard:SPD:0083  -18.00 CNY
+  Expenses:DailyNecessities         18.00 CNY
+
+2022-02-19 * "魏学磊" "转账备注:微信转账"
+  date: 2022-02-19
+  time: "15:56:54"
+  Assets:Card:CMB:2459   -789.00 CNY
+  Expenses:FoodBeverage   789.00 CNY
+
+2022-02-19 * "北京一卡通" "一卡通充值"
+  date: 2022-02-19
+  time: "09:49:56"
+  Assets:Card:CMB:2459     -100.00 CNY
+  Expenses:Transportation   100.00 CNY
+
+2022-02-20 * "亚马逊中国" "亚马逊电子书包月服务"
+  date: 2022-02-20
+  time: "17:33:24"
+  Liabilities:CreditCard:SPD:0083  -12.00 CNY
+  Expenses:CultureLeisure:Books     12.00 CNY
+
+2022-02-20 * "顺丰速运" "散单运费-顺丰速运"
+  date: 2022-02-20
+  time: "10:43:11"
+  Liabilities:CreditCard:SPD:0083  -40.85 CNY
+  Expenses:BusinessService          40.85 CNY
+
+2022-02-22 * "美团平台商户" "美团订单-22022211100400000027512985570781"
+  date: 2022-02-22
+  time: "12:05:27"
+  Liabilities:CreditCard:SPD:0083  -93.50 CNY
+  Expenses:FoodBeverage             93.50 CNY
+
+2022-02-23 * "EZFIX沈晓明" "转账备注:微信转账"
+  date: 2022-02-23
+  time: "16:51:35"
+  Assets:Card:CMB:2459        -1100.00 CNY
+  Expenses:DigitalAppliances   1100.00 CNY
+
+2022-02-23 * "海淀和易副食商店" "收款方备注:二维码收款"
+  date: 2022-02-23
+  time: "13:16:37"
+  Assets:Card:CMB:2459   -14.00 CNY
+  Expenses:FoodBeverage   14.00 CNY
+
+2022-02-25 * "天眼查官方版" "天眼查VIP会员服务-36个月"
+  date: 2022-02-25
+  time: "23:54:42"
+  Liabilities:CreditCard:SPD:0083  -720.00 CNY
+  Expenses:BusinessService          720.00 CNY
+
+2022-02-26 * "祥祥" "收款方备注:二维码收款"
+  date: 2022-02-26
+  time: "18:09:58"
+  Assets:Card:CMB:2459       -22.00 CNY
+  Expenses:DailyNecessities   22.00 CNY
+
+2022-02-26 * "主食厨房北京双榆树店" "主食厨房北京双榆树店"
+  date: 2022-02-26
+  time: "18:04:17"
+  Assets:WeChat:Pocket   -6.00 CNY
+  Expenses:FoodBeverage   6.00 CNY
+
+2022-02-27 * "海淀和易副食商店" "收款方备注:二维码收款"
+  date: 2022-02-27
+  time: "18:23:41"
+  Assets:Card:CMB:2459   -31.50 CNY
+  Expenses:FoodBeverage   31.50 CNY
+
+2022-02-27 * "主食厨房北京双榆树店" "主食厨房北京双榆树店"
+  date: 2022-02-27
+  time: "18:07:56"
+  Assets:WeChat:Pocket   -6.00 CNY
+  Expenses:FoodBeverage   6.00 CNY
+
+2022-02-27 * "郭子蔬果店" "收款方备注:二维码收款"
+  date: 2022-02-27
+  time: "12:07:02"
+  Assets:Card:CMB:2459       -23.00 CNY
+  Expenses:DailyNecessities   23.00 CNY
 
 

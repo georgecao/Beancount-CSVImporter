@@ -11,6 +11,7 @@ import logging
 import os
 import re
 import sys
+from functools import cmp_to_key
 from typing import Dict, Optional
 
 import dateutil.parser
@@ -81,7 +82,7 @@ class Col(enum.Enum):
     BALANCE = "BALANCE"
 
     # A column which says DEBIT or CREDIT (generally ignored).
-    DECR = "DECR"
+    DR_CR = "DR_CR"
 
     # Account name.
     ACCOUNT = "ACCOUNT"
@@ -110,7 +111,7 @@ class AccountType(enum.Enum):
     UNKNOWN = "[UNKNOWN]"
 
 
-class DeCr(enum.Enum):
+class DrCr(enum.Enum):
     DEBIT = "[DEBIT]"
 
     CREDIT = "[CREDIT]"
@@ -176,13 +177,13 @@ def get_amount(config: Dict[Col, str], row, allow_zero_amounts: bool = False):
     return decimal
 
 
-def get_amounts(config: Dict[Col, str], row, decr: DeCr, allow_zero_amounts: bool = False):
+def get_amounts(config: Dict[Col, str], row, drcr: DrCr, allow_zero_amounts: bool = False):
     """Get the amount columns of a row.
 
     Args:
         config: A dict of Col to row index.
         row: A row array containing the values of the given row.
-        decr: debit or credit type.
+        drcr: debit or credit type.
         allow_zero_amounts: Is a transaction with amount D('0.00') okay? If not,
             return (None, None).
     Returns:
@@ -193,7 +194,7 @@ def get_amounts(config: Dict[Col, str], row, decr: DeCr, allow_zero_amounts: boo
     if Col.AMOUNT in config:
         amount = row[config[Col.AMOUNT]]
         # Distinguish debit or credit
-        if decr == DeCr.CREDIT:
+        if drcr == DrCr.CREDIT:
             credit = amount
         else:
             debit = amount
@@ -216,24 +217,29 @@ def get_amounts(config: Dict[Col, str], row, decr: DeCr, allow_zero_amounts: boo
     )
 
 
-def get_debit_credit_status(config: [Col, str], row, decr_dict):
+def get_debit_credit_status(config: [Col, str], row, dr_cr_dict):
     """Get the status which says DEBIT or CREDIT of a row.
     """
 
     try:
-        if Col.DECR in config and len(row[config[Col.DECR]]):
-            return decr_dict[row[config[Col.DECR]]]
-        elif Col.STATUS in config:
-            return decr_dict[row[config[Col.STATUS]]]
+        dr_cr = None
+        columns = [Col.DR_CR, Col.STATUS]
+        for column in columns:
+            if column in config and len(row[config[column]]):
+                dr_cr = dr_cr_dict[row[config[column]]]
+                if dr_cr != DrCr.UNCERTAINTY:
+                    break
+        if dr_cr:
+            return dr_cr
         else:
             if Col.AMOUNT_CREDIT in config and row[config[Col.AMOUNT_CREDIT]]:
-                return DeCr.CREDIT
+                return DrCr.CREDIT
             elif Col.AMOUNT_DEBIT in config and row[config[Col.AMOUNT_DEBIT]]:
-                return DeCr.DEBIT
+                return DrCr.DEBIT
             else:
-                return DeCr.UNCERTAINTY
+                return DrCr.UNCERTAINTY
     except KeyError:
-        return DeCr.UNCERTAINTY
+        return DrCr.UNCERTAINTY
 
 
 class Importer(importer.ImporterProtocol):
@@ -246,9 +252,10 @@ class Importer(importer.ImporterProtocol):
             currency: str,
             file_name_prefix: str,
             skip_lines: int = 0,
-            decr_dict: Optional[Dict] = None,
+            dr_cr_dict: Optional[Dict] = None,
             refund_keyword: str = None,
             account_map: Dict = {},
+            non_fulfillment_status: str = '交易关闭',
     ):
         """Constructor.
 
@@ -258,7 +265,7 @@ class Importer(importer.ImporterProtocol):
           currency: A currency string, the currency of this account.
           file_name_prefix: Used for identification.
           skip_lines: Skip first x (garbage) lines of file.
-          decr_dict: A dict to determine whether a transaction is credit or debit.
+          dr_cr_dict: A dict to determine whether a transaction is credit or debit.
           refund_keyword: The keyword to determine whether a transaction is a refund.
           account_map: A dict to find the account corresponding to the transactions.
         """
@@ -269,8 +276,9 @@ class Importer(importer.ImporterProtocol):
         self.currency = currency
         assert isinstance(skip_lines, int)
         self.skip_lines = skip_lines
-        self.decr_dict = decr_dict
+        self.dr_cr_dict = dr_cr_dict
         self.refund_keyword = refund_keyword
+        self.non_fulfillment_status = non_fulfillment_status
         self.account_map = account_map
         self.file_name_prefix = file_name_prefix
         self.dateutil_kwds = None
@@ -311,16 +319,13 @@ class Importer(importer.ImporterProtocol):
         entries = []
         con = sqlite3.connect(":memory:")
         con.row_factory = sqlite3.Row
-        column_name, data_type = None, None
         sql = "CREATE TABLE txn ({})"
         ddl = []
         for col in list(Col):
             if len(ddl) > 0:
                 ddl.append(',')
             ddl.append(col.value)
-            if col is Col.DATE:
-                data_type = 'text'
-            elif col is Col.LINE_NO:
+            if col is Col.LINE_NO:
                 data_type = 'integer'
             else:
                 data_type = 'text'
@@ -343,8 +348,8 @@ class Importer(importer.ImporterProtocol):
         if has_header:
             next(reader)
 
-        def get(row, col_type):
-            return row[config[col_type]].strip() if col_type in config else None
+        def get(single_row, col_type):
+            return single_row[config[col_type]].strip() if col_type in config else None
 
         # Parse all the transactions.
         def prepare():
@@ -362,16 +367,19 @@ class Importer(importer.ImporterProtocol):
                          Col.TXN_TIME: get(r, Col.TXN_TIME),
                          Col.DATE: get(r, Col.DATE),
                          Col.TXN_NO: get(r, Col.TXN_NO),
-                         # The account that receives from or transfer to other accounts.
+                         # The account that receives from or transfer to other accounts. This one belongs to you.
                          Col.ACCOUNT: get(r, Col.ACCOUNT),
                          # Category
-                         Col.TYPE: get(r, Col.TYPE) or "",
+                         Col.TYPE: get(r, Col.TYPE),
                          # The peer account
                          Col.PAYEE: get(r, Col.PAYEE),
                          # The goods
                          Col.NARRATION: get(r, Col.NARRATION),
-                         Col.DECR: get_debit_credit_status(config, r, self.decr_dict),
+                         # Debit or Credit transaction.
+                         Col.DR_CR: get_debit_credit_status(config, r, self.dr_cr_dict),
+                         # Transaction amount.
                          Col.AMOUNT: get(r, Col.AMOUNT),
+                         # Line index.
                          Col.LINE_NO: idx}
 
                 names = []
@@ -381,7 +389,7 @@ class Importer(importer.ImporterProtocol):
                     if v is None:
                         continue
                     names.append(k.value)
-                    if isinstance(v, DeCr):
+                    if isinstance(v, DrCr):
                         dat.append(v.value)
                     else:
                         dat.append(v)
@@ -391,6 +399,7 @@ class Importer(importer.ImporterProtocol):
                     sql_insert = "insert into txn ({}) values ({})".format(",".join(names), ",".join(marks))
                     con.execute(sql_insert, tuple(dat))
 
+        # Prepare the transaction records.
         prepare()
 
         def process(record, ignore_closed_txn: bool = True):
@@ -405,11 +414,13 @@ class Importer(importer.ImporterProtocol):
             date = record[Col.DATE.value]
             amount_val = record[Col.AMOUNT.value]
             amount = cast_to_decimal(amount_val) if amount_val else None
-            decr = DeCr(record[Col.DECR.value])
+            dr_cr = DrCr(record[Col.DR_CR.value])
             txn_no = record[Col.TXN_NO.value]
 
             # Maybe you close the txn without paying, or you requested a refund after your purchase.
-            if status == '交易关闭' and ignore_closed_txn:
+            # We will not handle this unless we found it's matching refund transaction.
+            # Otherwise, just ignore it, b/c there was no money transferred between those accounts.
+            if status == self.non_fulfillment_status and ignore_closed_txn:
                 return None
 
             prev_txn = None
@@ -448,20 +459,20 @@ class Importer(importer.ImporterProtocol):
             units = Amount(amount, self.currency)
 
             primary_account, secondary_account = None, None
-            if decr == DeCr.UNCERTAINTY:
-                decr = self.decr_dict[status] if status in self.decr_dict else DeCr.CREDIT
+            if dr_cr == DrCr.UNCERTAINTY:
+                dr_cr = DrCr.DEBIT
+
             if prev_txn is None:
                 # We will define an account based on payee, narration and type.
                 alt = [payee, narration, txn_type]
-                one_account = search_account(self.account_map, [account])
-                another_account = search_account(self.account_map, alt)
-                if decr == DeCr.DEBIT:  # one_account -> another account
-                    primary_account = one_account
-                    secondary_account = another_account
-                elif decr == DeCr.CREDIT:  # one_account <- another account
-                    primary_account = another_account
-                    secondary_account = one_account
+                if dr_cr == DrCr.DEBIT:  # owner's account <- another account
+                    primary_account = search_account(self.account_map, alt, DrCr.CREDIT)
+                    secondary_account = search_account(self.account_map, [account], DrCr.DEBIT)
+                elif dr_cr == DrCr.CREDIT:  # owner's account -> another account
+                    primary_account = search_account(self.account_map, [account], DrCr.CREDIT)
+                    secondary_account = search_account(self.account_map, alt, DrCr.DEBIT)
             else:
+                # Just swap the accounts. It's a refund transaction.
                 secondary_account = prev_txn.postings[0].account
                 primary_account = prev_txn.postings[1].account
             # print(account, primary_account, secondary_account, units, -units, sep="--")
@@ -528,12 +539,42 @@ def normalize_config(config, head, skip_lines: int = 0):
     return index_config, has_header
 
 
-def search_account(account_map, keywords):
-    for _, mapping in account_map.items():
-        for keyword in keywords:
-            account_name, default_name = mapping_account(mapping, keyword)
-            if account_name:
-                return account_name
+def search_account(account_map, keywords, dr_cr: DrCr):
+    for keyword in keywords:
+        max_match_length = 0
+        match_name = None
+        account_map.keys()
+        first_key = None
+        if dr_cr == DrCr.CREDIT:
+            first_key = "credit"
+        elif dr_cr == DrCr.DEBIT:
+            first_key = "debit"
+
+        def compare(k1, k2):
+            if first_key == k1:
+                return -1
+            if first_key == k2:
+                return 1
+            if k1 == k2:
+                return 0
+            elif k1 < k2:
+                return -1
+            else:
+                return 1
+
+        keys = list(account_map.keys())
+        keys.sort(key=cmp_to_key(compare))
+        for key in keys:
+            mapping = account_map[key]
+            account_name, match_length, default_name = mapping_account(mapping, keyword)
+            if account_name and max_match_length < match_length:
+                match_name = account_name
+                max_match_length = match_length
+        if match_name:
+            return match_name
+
+
+DEFAULT_KEYWORD = "DEFAULT"
 
 
 def mapping_account(account_map, keyword):
@@ -549,18 +590,24 @@ def mapping_account(account_map, keyword):
     """
 
     if not keyword:
-        return None, None
-
-    if "DEFAULT" not in account_map:
+        return None, None, None
+    if DEFAULT_KEYWORD not in account_map:
         raise KeyError("DEFAULT is not in " + account_map.__str__)
-    default_name = account_map["DEFAULT"]
+    default_name = account_map[DEFAULT_KEYWORD]
     account_name = account_map[keyword] if keyword in account_map else None
+    match_length = len(DEFAULT_KEYWORD)
+    max_len = 0
     if account_name:
-        return account_name, default_name
+        return account_name, len(account_name), default_name
     for account_keywords in sorted(account_map.keys()):
-        if account_keywords == "DEFAULT":
+        if account_keywords == DEFAULT_KEYWORD:
             continue
-        if re.search(account_keywords, keyword):
-            account_name = account_map[account_keywords]
-            break
-    return account_name, default_name
+        match = re.search(account_keywords, keyword)
+        if match:
+            start, end = match.span()
+            length = end - start
+            if max_len < length:
+                max_len = length
+                match_length = length
+                account_name = account_map[account_keywords]
+    return account_name, match_length, default_name
