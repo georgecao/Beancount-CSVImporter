@@ -49,6 +49,9 @@ class Col(enum.Enum):
     # Transaction's unique No.
     TXN_NO = "TXN_NO"
 
+    # Merchant order No.
+    MERCHANT_NO = "MERCHANT_NO"
+
     # The settlement date, the date we should create the posting at.
     DATE = "DATE"
 
@@ -223,12 +226,16 @@ def get_debit_credit_status(config: [Col, str], row, dr_cr_dict):
 
     try:
         dr_cr = None
-        columns = [Col.DR_CR, Col.STATUS]
+        columns = [Col.DR_CR, Col.STATUS, Col.NARRATION]
+
         for column in columns:
-            if column in config and len(row[config[column]]):
-                dr_cr = dr_cr_dict[row[config[column]]]
-                if dr_cr != DrCr.UNCERTAINTY:
-                    break
+            if column in config:
+                value = row[config[column]]
+                if value in dr_cr_dict:
+                    dr_cr = dr_cr_dict[value]
+                    if dr_cr != DrCr.UNCERTAINTY:
+                        break
+
         if dr_cr:
             return dr_cr
         else:
@@ -285,9 +292,7 @@ class Importer(importer.ImporterProtocol):
 
     def file_date(self, file):
         """Get the maximum date from the file."""
-        config, has_header = normalize_config(
-            self.config, file.contents(), self.skip_lines
-        )
+        config, has_header = normalize_config(self.config, file.contents(), self.skip_lines)
         if Col.DATE in config:
             reader = csv.reader(io.StringIO(strip_blank(file.contents())))
             for _ in range(self.skip_lines):
@@ -367,6 +372,7 @@ class Importer(importer.ImporterProtocol):
                          Col.TXN_TIME: get(r, Col.TXN_TIME),
                          Col.DATE: get(r, Col.DATE),
                          Col.TXN_NO: get(r, Col.TXN_NO),
+                         Col.MERCHANT_NO: get(r, Col.MERCHANT_NO),
                          # The account that receives from or transfer to other accounts. This one belongs to you.
                          Col.ACCOUNT: get(r, Col.ACCOUNT),
                          # Category
@@ -416,18 +422,23 @@ class Importer(importer.ImporterProtocol):
             amount = cast_to_decimal(amount_val) if amount_val else None
             dr_cr = DrCr(record[Col.DR_CR.value])
             txn_no = record[Col.TXN_NO.value]
+            merchant_no = record[Col.MERCHANT_NO.value]
 
             # Maybe you close the txn without paying, or you requested a refund after your purchase.
             # We will not handle this unless we found it's matching refund transaction.
             # Otherwise, just ignore it, b/c there was no money transferred between those accounts.
-            if status == self.non_fulfillment_status and ignore_closed_txn:
+            is_wechat_txn = self.refund_keyword in status and dr_cr == DrCr.CREDIT
+            is_alipay_txn = status == self.non_fulfillment_status
+            if (is_wechat_txn or is_alipay_txn) and ignore_closed_txn:
                 return None
 
             prev_txn = None
-            if txn_type == self.refund_keyword and status == '退款成功':
+            if self.refund_keyword in status and dr_cr != DrCr.CREDIT:
+                # For WeChat, merchant_no == txn_no and txn_no != txn_no
+                # For Alipay, merchant_no == merchant_no and txn_no != txn_no
+                no = merchant_no or txn_no
                 for prev_row in con.execute(
-                        "select * from txn where ACCOUNT = ? and PAYEE = ? and AMOUNT = ? and TXN_NO != ? and TXN_DATE < ?",
-                        (account, payee, amount_val, txn_no, txn_date)):
+                        "select * from txn where MERCHANT_NO = ? and TXN_NO != ?", (no, txn_no)):
                     if prev_txn is None:
                         prev_txn = process(prev_row, False)
                     else:
@@ -458,10 +469,10 @@ class Importer(importer.ImporterProtocol):
 
             units = Amount(amount, self.currency)
 
-            primary_account, secondary_account = None, None
             if dr_cr == DrCr.UNCERTAINTY:
                 dr_cr = DrCr.DEBIT
 
+            primary_account, secondary_account = None, None
             if prev_txn is None:
                 # We will define an account based on payee, narration and type.
                 alt = [payee, narration, txn_type]
@@ -475,9 +486,6 @@ class Importer(importer.ImporterProtocol):
                 # Just swap the accounts. It's a refund transaction.
                 secondary_account = prev_txn.postings[0].account
                 primary_account = prev_txn.postings[1].account
-            # print(account, primary_account, secondary_account, units, -units, sep="--")
-            if primary_account is None or secondary_account is None:
-                print(account, payee, narration, txn_type, primary_account, secondary_account, sep="##")
 
             txn.postings.append(
                 data.Posting(primary_account, -units, None, None, None, None)
@@ -490,7 +498,7 @@ class Importer(importer.ImporterProtocol):
             entries.append(txn)
             return txn
 
-        for row in con.execute("SELECT * FROM txn ORDER BY TXN_DATE ASC ;"):
+        for row in con.execute("SELECT * FROM txn ORDER BY TXN_DATE ASC"):
             process(row)
 
         return entries
@@ -522,6 +530,7 @@ def normalize_config(config, head, skip_lines: int = 0):
     has_header = csv.Sniffer().has_header(head)
     if has_header:
         header = next(csv.reader(io.StringIO(head)))
+        # A name to index mapping
         field_map = {
             field_name.strip(): index for index, field_name in enumerate(header)
         }
@@ -529,6 +538,7 @@ def normalize_config(config, head, skip_lines: int = 0):
         for field_type, field in config.items():
             if isinstance(field, str):
                 field = field_map[field]
+            # Filed type to it's index in the row, or it's name
             index_config[field_type] = field
     else:
         if any(not isinstance(field, int) for field_type, field in config.items()):
@@ -540,38 +550,29 @@ def normalize_config(config, head, skip_lines: int = 0):
 
 
 def search_account(account_map, keywords, dr_cr: DrCr):
-    for keyword in keywords:
-        max_match_length = 0
-        match_name = None
-        account_map.keys()
-        first_key = None
-        if dr_cr == DrCr.CREDIT:
-            first_key = "credit"
-        elif dr_cr == DrCr.DEBIT:
-            first_key = "debit"
+    if dr_cr == DrCr.CREDIT:
+        key = "credit"
+    elif dr_cr == DrCr.DEBIT:
+        key = "debit"
+    else:
+        key = "assets"
 
-        def compare(k1, k2):
-            if first_key == k1:
-                return -1
-            if first_key == k2:
-                return 1
-            if k1 == k2:
-                return 0
-            elif k1 < k2:
-                return -1
-            else:
-                return 1
-
-        keys = list(account_map.keys())
-        keys.sort(key=cmp_to_key(compare))
-        for key in keys:
-            mapping = account_map[key]
+    mapping = account_map[key]
+    if mapping:
+        # Keywords have priority and according to their index in the list.
+        default_name = None
+        for keyword in keywords:
             account_name, match_length, default_name = mapping_account(mapping, keyword)
-            if account_name and max_match_length < match_length:
-                match_name = account_name
-                max_match_length = match_length
-        if match_name:
-            return match_name
+            if account_name:
+                return account_name
+
+        # Backup accounts
+        if dr_cr != DrCr.UNCERTAINTY:
+            backup = search_account(account_map, keywords, DrCr.UNCERTAINTY)
+            if backup:
+                return backup
+        # Found nothing, use the default account instead.
+        return default_name
 
 
 DEFAULT_KEYWORD = "DEFAULT"
@@ -584,7 +585,7 @@ def mapping_account(account_map, keyword):
       account_map: A dict of account keywords string (each keyword separated by "|") to account name.
       keyword: A keyword string.
     Return:
-      An account name string.
+      An account name string. Try to find the longest matching account.
     Raises:
       KeyError: If "DEFAULT" keyword is not in account_map.
     """

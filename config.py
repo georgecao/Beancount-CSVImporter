@@ -11,6 +11,7 @@ dr_cr_dict = {
     "支出": DrCr.CREDIT,
     "已支出": DrCr.CREDIT,
     "还款成功": DrCr.CREDIT,
+    "余额宝-自动转入": DrCr.CREDIT,
     "收入": DrCr.DEBIT,
     "已收入": DrCr.DEBIT,
     "退款成功": DrCr.DEBIT,
@@ -21,6 +22,7 @@ refund_keyword = "退款"
 
 config_wechat = {
     Col.TXN_NO: "交易单号",
+    Col.MERCHANT_NO: "商户单号",
     Col.DATE: "交易时间",
     Col.PAYEE: "交易对方",
     Col.NARRATION: "商品",
@@ -35,6 +37,7 @@ config_wechat = {
 
 config_alipay = {
     Col.TXN_NO: "交易订单号",
+    Col.MERCHANT_NO: "商家订单号",
     Col.DATE: "交易时间",
     Col.PAYEE: "交易对方",
     Col.NARRATION: "商品说明",
@@ -48,28 +51,33 @@ config_alipay = {
 }
 
 account_map = {
-    "both": {
-        "DEFAULT": "Unknown",
+    # Accounts that name is clear and has no ambiguity. And can be either credit or debit.
+    "assets": {
+        "DEFAULT": "Assets:Cash",
         "余额宝": "Assets:Alipay:Yuebao",
         "余额宝-转出到余额 ": "Assets:Alipay:Yuebao",
-        "余额宝-自动转入 ": "Assets:Alipay:Yuebao",
+        "余额宝-自动转入": "Assets:Alipay:Yuebao",
         "余额": "Assets:Alipay:Yue",
-        "花呗": "Liabilities:CreditPay:Alipay:HuaBei",
-        "余额&红包": "Assets:Alipay:Yue",
-        "浦发银行信用卡(0083)": "Liabilities:CreditCard:SPD:0083",
-        "浦发银行(0083)": "Liabilities:CreditCard:SPD:0083",
         "零钱": "Assets:WeChat:Pocket",
         "/": "Assets:WeChat:Pocket",
+        "余额&红包": "Assets:Alipay:Yue",
         "招商银行储蓄卡(2459)": "Assets:Card:CMB:2459",
         "招商银行(5407)": "Assets:Card:CMB:2459",
+
+        "花呗": "Liabilities:CreditPay:Alipay:HuaBei",
+        "浦发银行信用卡(0083)": "Liabilities:CreditCard:SPD:0083",
+        "浦发银行(0083)": "Liabilities:CreditCard:SPD:0083",
+        "美团金融服务": "Liabilities:CreditCard:MeiTuan",
     },
     "credit": {
         "DEFAULT": "Income:Cash",
         "余额宝-[\\d.]{10}-收益发放": "Income:Investment:Interest",
-        "微信红包": "Income:RedPackage:WeChat",
+        "微信红包": "Income:RedPacket:WeChat",
+        "转账": "Income:Transfer"
     },
     "debit": {
         "DEFAULT": "Expenses:DailyNecessities",
+        "余额宝-自动转入": "Assets:Alipay:Yuebao",
         "水滴筹": "Expenses:",
         "亿方物业": "Expenses:RealEstate",
         "交通出行": "Expenses:Transportation",
@@ -139,18 +147,17 @@ account_map = {
         "拉面": "Expenses:FoodBeverage",
         "水果": "Expenses:FoodBeverage",
         "星巴克": "Expenses:FoodBeverage:Coffee",
-        "浦发银行信用卡(0083)": "Liabilities:CreditCard:SPD:0083",
         "天猫超市": "Expenses:DailyNecessities",
         "耳机": "Expenses:DigitalEquipment:Audio",
         "火车票": "Expenses:Transportation:Railway",
         "打车": "Expenses:Transportation:Taxi",
-        "美团金融服务": "Liabilities:CreditCard:MeiTuan",
         "王鑫Sherry": "Assets:Receivables:WangXinSherry",
         "朴老师": "Assets:Receivables:Design",
         "PtrkTao": "Assets:Receivables:Design",
         "EZFIX沈晓明": "Expenses:DigitalAppliances",
         "转账备注": "Expenses:Other",
         "光辉岁月": "Expenses:Other",
+        "发出群红包": "Expenses:RedPacket:WeChat",
     },
 }
 
