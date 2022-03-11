@@ -73,7 +73,8 @@ account_map = {
         "DEFAULT": "Income:Cash",
         "余额宝-[\\d.]{10}-收益发放": "Income:Investment:Interest",
         "微信红包": "Income:RedPacket:WeChat",
-        "转账": "Income:Transfer"
+        "转账": "Income:Transfer",
+        "二维码收款": "Income:Transfer"
     },
     "debit": {
         "DEFAULT": "Expenses:DailyNecessities",
@@ -157,6 +158,8 @@ account_map = {
         "EZFIX沈晓明": "Expenses:DigitalAppliances",
         "转账备注": "Expenses:Other",
         "光辉岁月": "Expenses:Other",
+        "张玉荣": "Expenses:OutdoorSports",
+        "水": "Expenses:OutdoorSports",
         "发出群红包": "Expenses:RedPacket:WeChat",
     },
 }
