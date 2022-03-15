@@ -408,7 +408,7 @@ class Importer(importer.ImporterProtocol):
         # Prepare the transaction records.
         prepare()
 
-        def process(record, ignore_closed_txn: bool = True):
+        def process(record, ignore_txn: bool = True):
             status = record[Col.STATUS.value]
             payee = record[Col.PAYEE.value]
             narration = record[Col.NARRATION.value]
@@ -429,7 +429,7 @@ class Importer(importer.ImporterProtocol):
             # Otherwise, just ignore it, b/c there was no money transferred between those accounts.
             is_wechat_txn = self.refund_keyword in status and dr_cr == DrCr.CREDIT
             is_alipay_txn = status == self.non_fulfillment_status
-            if (is_wechat_txn or is_alipay_txn) and ignore_closed_txn:
+            if (is_wechat_txn or is_alipay_txn) and ignore_txn:
                 return None
 
             prev_txn = None
@@ -498,6 +498,8 @@ class Importer(importer.ImporterProtocol):
             entries.append(txn)
             return txn
 
+        # Must traverse the records in ascend order, give us a chance to handle refund records
+        # and transfer the refund back to the original account.
         for row in con.execute("SELECT * FROM txn ORDER BY TXN_DATE ASC"):
             process(row)
 
